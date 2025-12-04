@@ -50,7 +50,8 @@ def webhook():
 @app.get("/users")
 @login_required
 def users():
-    return "</h1>Hallo from users</h1>"
+    users = db_read ("Select username From users")
+    return render_template
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
