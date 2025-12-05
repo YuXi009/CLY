@@ -48,12 +48,10 @@ def webhook():
 
 # Auth routes
 @app.get("/users")
-def login():
-    return render_template ("users.html")
 @login_required
 def users():
-    users = db_read ("Select username From users")
-    return render_template
+    users = db_read("SELECT * FROM users", ())
+    return render_template ("users.html", title = "Benutzername", users = users)
 
 @app.route("/login", methods=["GET", "POST"])
 @login_required
