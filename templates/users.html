@@ -1,3 +1,6 @@
+{%extends "base.html"%}
+{% block content %}
+
 <h1>{{title}}</h1>
 <h2>Hier sind alle Benutzer:</h2>
 <ul>
@@ -5,3 +8,4 @@
         <li>{{user.username}}</li>
     {% endfor %}
 </ul>
+{% endblock %}
