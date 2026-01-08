@@ -54,7 +54,6 @@ def users():
     return render_template ("users.html", title = "Benutzername", users = users)
 
 @app.route("/login", methods=["GET", "POST"])
-@login_required
 def login():
     error = None
 
