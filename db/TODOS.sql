@@ -1,5 +1,6 @@
 CREATE TABLE Patient (
   patienten_id INT PRIMARY KEY,
+  Name VARCHAR (100) NOT NULL,
   Geburtsdatum DATE,
   Geschlecht VARCHAR(20),
   Gewicht INT,
@@ -7,6 +8,7 @@ CREATE TABLE Patient (
   Versicherungsnummer INT,
   Age INT
 );
+
 
 INSERT INTO Patient 
 (patienten_id, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus, Versicherungsnummer, Age)
