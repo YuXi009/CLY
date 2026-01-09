@@ -138,3 +138,22 @@ def complete():
 
 if __name__ == "__main__":
     app.run()
+
+#UseCase 1
+@app.route("/patients/add", methods=["GET", "POST"])
+@login_required
+def add_patient():
+    if request.method == "POST":
+        Name = request.form["Name"]
+        Geburtsdatum = request.form["Geburtsdatum"]
+        Geschlecht = request.form["Geschlecht"]
+        Gewicht = request.form["Gewicht"]
+
+        db_write(
+            "INSERT INTO patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus) VALUES (%s, %s, %s, %s, 1)",
+            (Name, Geburtsdatum, Geschlecht, Gewicht)
+        )
+
+        return redirect(url_for("list_patients"))
+
+    return render_template("add_patient.html")
