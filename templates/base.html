@@ -59,9 +59,10 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class = "nav navbar-nav navbar-right">
             <li><a href="/users">Benutzer</a></li>
+            <li><a href="/patient">Patienten</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-
+        
             {% if current_user.is_authenticated %}
 
               <li><a href="#">Hallo, {{ current_user.username }}</a></li>
