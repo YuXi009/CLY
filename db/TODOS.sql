@@ -11,8 +11,7 @@ CREATE TABLE Patient (
   Geschlecht VARCHAR(20),
   Gewicht INT,
   Aktivitaetsstatus BOOLEAN,
-  Versicherungsnummer INT,
-  Age INT
+  Versicherungsnummer INT
 );
 
 

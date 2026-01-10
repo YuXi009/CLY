@@ -164,5 +164,5 @@ def add_patient():
 @app.get("/patient")
 @login_required
 def patient():
-    patient = db_read("SELECT * FROM Patient")
+    patient = db_read("SELECT * FROM Patient", ())
     return render_template("patient.html", title = "Patienten", patient = patient)
