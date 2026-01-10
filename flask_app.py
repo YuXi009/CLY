@@ -65,7 +65,8 @@ def login():
 
         if user:
             login_user(user)
-            return redirect(url_for("add_patient"))
+            next_page = request.args.get("next")
+            return redirect(next_page or url_for("add_patient"))
 
         error = "Benutzername oder Passwort ist falsch."
 
@@ -151,9 +152,9 @@ def add_patient():
         Gewicht = request.form["Gewicht"]
         db_write(
             "INSERT INTO patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus) VALUES (%s, %s, %s, %s, 1)",
-            (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus)
+            (Name, Geburtsdatum, Geschlecht, Gewicht)
         )
 
-        #return redirect(url_for("add_patient"))
+        return redirect(url_for("add_patient"))
 
     return render_template("add_patient.html")
