@@ -17,7 +17,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for p in patients %}
+    {% for p in patient %}
       <tr>
         <td>{{ p.patienten_id }}</td>
         <td>{{ p.Name }}</td>
@@ -29,7 +29,7 @@
   </tbody>
 </table>
 
-{% if patients|length == 0 %}
+{% if patient|length == 0 %}
   <p>Keine aktiven Patient:innen vorhanden.</p>
 {% endif %}
 {% endblock %}
