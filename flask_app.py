@@ -65,7 +65,7 @@ def login():
 
         if user:
             login_user(user)
-            return redirect(url_for("index"))
+            return redirect(url_for("add_patient"))
 
         error = "Benutzername oder Passwort ist falsch."
 
@@ -110,12 +110,12 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("index"))
+    return redirect(url_for("add_patient"))
 
 
 
 # App routes
-@app.route("/", methods=["GET", "POST"])
+'''@app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
      # GET
@@ -139,7 +139,7 @@ def complete():
 
 if __name__ == "__main__":
     app.run()
-
+'''
 #UseCase 1
 @app.route("/", methods=["GET", "POST"])
 @login_required
@@ -149,12 +149,11 @@ def add_patient():
         Geburtsdatum = request.form["Geburtsdatum"]
         Geschlecht = request.form["Geschlecht"]
         Gewicht = request.form["Gewicht"]
-
         db_write(
             "INSERT INTO patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus) VALUES (%s, %s, %s, %s, 1)",
-            (Name, Geburtsdatum, Geschlecht, Gewicht)
+            (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus)
         )
 
-        return redirect(url_for("list_patients"))
+        #return redirect(url_for("add_patient"))
 
     return render_template("add_patient.html")
