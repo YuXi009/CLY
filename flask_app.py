@@ -115,9 +115,9 @@ def logout():
 
 
 # App routes
-#@app.route("/", methods=["GET", "POST"])
-#@login_required
-#def index():
+@app.route("/", methods=["GET", "POST"])
+@login_required
+def index():
     # GET
  #  if request.method == "GET":
   #      todos = db_read("SELECT id, content, due FROM todos WHERE user_id=%s ORDER BY due", (current_user.id,))
@@ -129,15 +129,15 @@ def logout():
     #db_write("INSERT INTO todos (user_id, content, due) VALUES (%s, %s, %s)", (current_user.id, content, due, ))
     #return redirect(url_for("index"))
 
-#@app.post("/complete")
-#@login_required
-#def complete():
- #   todo_id = request.form.get("id")
-  #  db_write("DELETE FROM todos WHERE user_id=%s AND id=%s", (current_user.id, todo_id,))
-   # return redirect(url_for("index"))
+@app.post("/complete")
+@login_required
+def complete():
+    todo_id = request.form.get("id")
+    db_write("DELETE FROM todos WHERE user_id=%s AND id=%s", (current_user.id, todo_id,))
+    return redirect(url_for("index"))
 
-#if __name__ == "__main__":
- #   app.run()
+if __name__ == "__main__":
+    app.run()
 
 #UseCase 1
 @app.route("/", methods=["GET", "POST"])
