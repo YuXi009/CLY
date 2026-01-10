@@ -150,9 +150,9 @@ def add_patient():
         Geburtsdatum = request.form["Geburtsdatum"]
         Geschlecht = request.form["Geschlecht"]
         Gewicht = request.form["Gewicht"]
-        Versicherungsnummer = request.form["Versicherungsnumme"]
+        Versicherungsnummer = request.form["Versicherungsnummer"]
         db_write(
-            "INSERT INTO patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer) VALUES (%s, %s, %s, %s, 1)",
+            "INSERT INTO patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer) VALUES (%s, %s, %s, %s, 1, %s)",
             (Name, Geburtsdatum, Geschlecht, Gewicht, Versicherungsnummer)
         )
 
@@ -164,6 +164,6 @@ def add_patient():
 @app.get("/patient")
 @login_required
 def patient():
-    patient = db_read("SELECT * FROM Patient", ())
-    return render_template("patient.html", title = "Patienten", patient = patient)
+    patients = db_read("SELECT * FROM Patient", ())
+    return render_template("patient.html", title = "Patienten", patients = patients)
 
