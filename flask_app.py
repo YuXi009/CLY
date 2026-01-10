@@ -140,7 +140,7 @@ def logout():
  #   app.run()
 
 #UseCase 1
-@app.route("/add_patient", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 @login_required
 def add_patient():
     if request.method == "POST":
