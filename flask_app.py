@@ -161,8 +161,8 @@ def add_patient():
     return render_template("add_patient.html")
 
 # Use Case 4
-@app.route("/patient")
+@app.get("/patient")
 @login_required
 def patient():
-    patient = db_read("SELECT * FROM patient WHERE Aktivitätsstatus = 1")
-    return render_template("patient.html", title ="Patienten", patient=patient)
+    patient = db_read("SELECT * FROM Patient")
+    return render_template("patient.html", title = "Patienten", patient = patient)
