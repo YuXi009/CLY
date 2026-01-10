@@ -10,14 +10,14 @@ CREATE TABLE Patient (
   Geburtsdatum DATE,
   Geschlecht VARCHAR(20),
   Gewicht INT,
-  Aktivitätsstatus BOOLEAN,
+  Aktivitaetsstatus BOOLEAN,
   Versicherungsnummer INT,
   Age INT
 );
 
 
 INSERT INTO Patient 
-(patienten_id, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus, Versicherungsnummer)
+(patienten_id, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer)
 VALUES 
 (1234567, '1999-03-24', 'weiblich', 87, TRUE, 2345678);
 
