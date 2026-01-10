@@ -160,8 +160,8 @@ def add_patient():
     return render_template("add_patient.html")
 
 # Use Case 4
-@app.route("/patients")
+@app.route("/patient")
 @login_required
 def list_patients():
-    patients = db_read("SELECT * FROM patient WHERE Aktivitätsstatus = 1")
-    return render_template("patients.html", patients=patients)
+    patient = db_read("SELECT * FROM patient WHERE Aktivitätsstatus = 1")
+    return render_template("patient.html", patient=patient
