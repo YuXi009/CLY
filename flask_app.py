@@ -163,6 +163,6 @@ def add_patient():
 # Use Case 4
 @app.route("/patient")
 @login_required
-def list_patients():
+def patient():
     patient = db_read("SELECT * FROM patient WHERE Aktivitätsstatus = 1")
-    return render_template("patient.html", patient=patient
+    return render_template("patient.html", title ="Patienten", patient=patient)
