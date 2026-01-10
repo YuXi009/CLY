@@ -150,9 +150,10 @@ def add_patient():
         Geburtsdatum = request.form["Geburtsdatum"]
         Geschlecht = request.form["Geschlecht"]
         Gewicht = request.form["Gewicht"]
+        Versicherungsnummer = request.form["Versicherungsnumme"]
         db_write(
-            "INSERT INTO patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus) VALUES (%s, %s, %s, %s, 1)",
-            (Name, Geburtsdatum, Geschlecht, Gewicht)
+            "INSERT INTO patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitätsstatus, Versicherungsnummer) VALUES (%s, %s, %s, %s, 1)",
+            (Name, Geburtsdatum, Geschlecht, Gewicht, Versicherungsnummer)
         )
 
         return redirect(url_for("add_patient"))
