@@ -1,35 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Patient:innenübersicht</h2>
+<h2>Patient:innen</h2>
+<p>Wähle einen Patienten oder eine Patientin aus, um seine/ihre Daten zu sehen.</p>
 
-<a class="btn btn-success" href="{{ url_for('add_patient') }}">+ Patient:in erfassen</a>
+{% if patients and patients|length > 0 %}
+  <div class="list-group">
+
+    {% for p in patients %}
+      <a class="list-group-item"
+         href="/patient/{{ p.patienten_id }}">
+        {{ p.Name }}
+      </a>
+    {% endfor %}
+
+  </div>
+{% else %}
+  <p><em>Noch keine Patient:innen erfasst.</em></p>
+{% endif %}
+
 <hr>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>patienten_id</th>
-      <th>Name</th>
-      <th>Geburtsdatum</th>
-      <th>Geschlecht</th>
-      <th>Gewicht</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for p in patient %}
-      <tr>
-        <td>{{ p.patienten_id }}</td>
-        <td>{{ p.Name }}</td>
-        <td>{{ p.Geburtsdatum }}</td>
-        <td>{{ p.Geschlecht }}</td>
-        <td>{{ p.Gewicht }}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-{% if patient|length == 0 %}
-  <p>Keine aktiven Patient:innen vorhanden.</p>
-{% endif %}
+<a class="btn btn-success" href="{{ url_for('add_patient') }}">
+  + Patient:in erfassen
+</a>
 {% endblock %}

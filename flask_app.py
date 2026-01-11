@@ -141,6 +141,15 @@ def complete():
 if __name__ == "__main__":
     app.run()
 '''
+
+# Use Case 4
+@app.get("/patient")
+@login_required
+def patient():
+    patient = db_read ("SELECT Name FROM Patient WHERE Aktivitaetsstatus = 1", ())
+    return render_template("patient.html" patient = patient)
+
+
 #UseCase 1
 @app.route("/", methods=["GET", "POST"])
 @login_required
@@ -159,11 +168,4 @@ def add_patient():
         return redirect(url_for("add_patient"))
 
     return render_template("add_patient.html")
-
-# Use Case 4
-@app.get("/patient")
-@login_required
-def patient():
-    patient = db_read ("SELECT * FROM Patient", ())
-    return render_template("patient.html", title = "Patienten", patient = patient)
 
