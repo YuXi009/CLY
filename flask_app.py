@@ -151,7 +151,7 @@ def patient():
 
 
 #UseCase 1
-@app.route("/patients/add", methods=["GET", "POST"])
+@app.route("/add_patient", methods=["GET", "POST"])
 @login_required
 def add_patient():
     if request.method == "POST":

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Patient:innen</h2>
+<h2>Patient:innenliste</h2>
 <p>Wähle einen Patienten oder eine Patientin aus, um seine/ihre Daten zu sehen.</p>
 
 {% if patients and patients|length > 0 %}
@@ -9,7 +9,7 @@
 
     {% for p in patients %}
       <a class="list-group-item"
-         href="/patient/{{ p.patienten_id }}">
+         href="/patient/{{ p.Name }}">
         {{ p.Name }}
       </a>
     {% endfor %}
