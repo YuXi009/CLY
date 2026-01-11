@@ -66,7 +66,7 @@ def login():
         if user:
             login_user(user)
             next_page = request.args.get("next")
-            return redirect(next_page or url_for("add_patient"))
+            return redirect(next_page or url_for("patient"))
 
         error = "Benutzername oder Passwort ist falsch."
 
@@ -111,7 +111,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("add_patient"))
+    return redirect(url_for("patient"))
 
 
 
@@ -143,11 +143,11 @@ if __name__ == "__main__":
 '''
 
 # Use Case 4
-@app.get("/")
+@app.get("/patient")
 @login_required
 def patient():
     patients = db_read ("SELECT * FROM Patient", ())
-    return render_template("patient.html", patients = patients)
+    return render_template("patient.html", title="Patientenlist", patients = patients)
 
 
 #UseCase 1
@@ -162,7 +162,7 @@ def add_patient():
         Versicherungsnummer = request.form["Versicherungsnummer"]
         db_write(
             "INSERT INTO Patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer) VALUES (%s, %s, %s, %s, 1, %s)",
-            (Name, Geburtsdatum, Geschlecht, Gewicht, Versicherungsnummer)
+            (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer,)
         )
 
         return redirect(url_for("add_patient"))
