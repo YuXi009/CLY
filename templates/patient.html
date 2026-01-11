@@ -7,10 +7,10 @@
 {% if patients and patients|length > 0 %}
   <div class="list-group">
 
-    {% for p in patients %}
+    {% for patient in patients %}
       <a class="list-group-item"
-         href="/patient/{{ p.Name }}">
-        {{ p.Name }}
+         href="/patient/{{ patient.Name }}">
+        {{ patient.Name }}
       </a>
     {% endfor %}
 
