@@ -147,7 +147,7 @@ if __name__ == "__main__":
 @login_required
 def patient():
     patients = db_read ("SELECT Name FROM Patient WHERE Aktivitaetsstatus = 1", ())
-    return render_template("patient.html" patients = patients)
+    return render_template("patient.html", patients = patients)
 
 
 #UseCase 1
