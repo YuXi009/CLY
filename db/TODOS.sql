@@ -14,12 +14,12 @@ CREATE TABLE Patient (
   Versicherungsnummer INT
 );
 
-
+'''
 INSERT INTO Patient 
 (patienten_id, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer)
 VALUES 
 (1234567, '1999-03-24', 'weiblich', 87, TRUE, 2345678);
-
+'''
 CREATE TABLE Allergie (
   allergie_id INT PRIMARY KEY,
   Schweregrad INT,
