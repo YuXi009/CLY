@@ -165,7 +165,7 @@ def add_patient():
             (Name, Geburtsdatum, Geschlecht, Gewicht, Versicherungsnummer,)
         )
 
-        return redirect(url_for("add_patient"))
+        return redirect(url_for("patient"))
 
-    return render_template("add_patient.html")
+    return render_template("patient.html")
 
