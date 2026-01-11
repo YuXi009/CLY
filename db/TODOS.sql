@@ -5,7 +5,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE Patient (
-  patienten_id INT PRIMARY KEY,
+  patienten_id INT AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR (100) NOT NULL,
   Geburtsdatum DATE,
   Geschlecht VARCHAR(20),
