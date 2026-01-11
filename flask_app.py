@@ -143,7 +143,7 @@ if __name__ == "__main__":
 '''
 
 # Use Case 4
-@app.get("/patient")
+@app.get("/")
 @login_required
 def patient():
     patients = db_read ("SELECT * FROM Patient", ())
