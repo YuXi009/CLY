@@ -143,7 +143,7 @@ if __name__ == "__main__":
 '''
 
 # Use Case 4
-@app.get("/patient")
+@app.get("/")
 @login_required
 def patient():
     patients = db_read ("SELECT Name FROM Patient WHERE Aktivitaetsstatus = 1", ())
@@ -151,7 +151,7 @@ def patient():
 
 
 #UseCase 1
-@app.route("/", methods=["GET", "POST"])
+@app.route("/patients/add", methods=["GET", "POST"])
 @login_required
 def add_patient():
     if request.method == "POST":
