@@ -168,5 +168,5 @@ def add_patient():
 
         return redirect(url_for("add_patient"))
 
-    return render_template("patient.html")
+    return render_template("add_patient.html")
 
