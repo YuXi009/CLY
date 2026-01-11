@@ -5,7 +5,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE Patient (
-  patienten_id INT AUTO_INCREMENT PRIMARY KEY,
+  patienten_id AUTO_INCREMENT INT PRIMARY KEY,
   Name VARCHAR (100) NOT NULL,
   Geburtsdatum DATE,
   Geschlecht VARCHAR(20),
@@ -15,9 +15,9 @@ CREATE TABLE Patient (
 );
 
 INSERT INTO Patient 
-(patienten_id, Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer)
+(Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer)
 VALUES 
-(1234567, 'Test', '1999-03-24', 'weiblich', 87, TRUE, 2345678);
+('Test2', '1999-03-23', 'weiblich', 60, TRUE, 2345678);
 
 CREATE TABLE Allergie (
   allergie_id INT PRIMARY KEY,
