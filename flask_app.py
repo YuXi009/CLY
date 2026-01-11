@@ -155,6 +155,7 @@ def patient():
 @login_required
 def add_patient():
     if request.method == "POST":
+        patienten_id = LAST_INSERT_ID() + 1
         Name = request.form["Name"]
         Geburtsdatum = request.form["Geburtsdatum"]
         Geschlecht = request.form["Geschlecht"]
