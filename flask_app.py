@@ -163,10 +163,10 @@ def add_patient():
         Versicherungsnummer = request.form["Versicherungsnummer"]
         db_write(
             "INSERT INTO Patient (patienten_id, Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer) VALUES (%s, %s, %s, %s, %s, 1, %s)",
-            (patienten_id, Name, Geburtsdatum, Geschlecht, Gewicht, Versicherungsnummer,)
+            (Name, Geburtsdatum, Geschlecht, Gewicht, Versicherungsnummer)
         )
 
-        return redirect(url_for("patient"))
+        return redirect(url_for("add_patient"))
 
-    return render_template("add_patient.html")
+    return render_template("patient.html")
 
