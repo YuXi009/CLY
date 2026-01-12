@@ -8,6 +8,7 @@
     <strong>{{ patient.Name }}</strong> (ID: {{ patient.patienten_id }})
   </div>
   <div class="panel-body">
+    <p><strong>Name:</strong> {{ patient.Name }}</p>
     <p><strong>Geburtsdatum:</strong> {{ patient.Geburtsdatum }}</p>
     <p><strong>Geschlecht:</strong> {{ patient.Geschlecht }}</p>
     <p><strong>Gewicht:</strong> {{ patient.Gewicht }} kg</p>
@@ -17,7 +18,6 @@
 
 <div class="btn-group" role="group" style="margin-bottom: 15px;">
   <a class="btn btn-default" href="{{ url_for('patient') }}">← Zur Patientenliste</a>
-  <a class="btn btn-success" href="{{ url_for('add_patient') }}">+ Neuer Patient</a>
 </div>
 
 <hr>
