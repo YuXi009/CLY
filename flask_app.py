@@ -172,7 +172,7 @@ def add_patient():
 # Use Case 4 Patientenübersicht anzeigen
 @app.get("/patient/<int:patient_id>")
 @login_required
-def patientenübersicht(patient_id):
+def patientenuebersicht(patient_id):
     patient = db_read(
         "SELECT * FROM Patient WHERE patienten_id = %s",
         (patient_id,),
@@ -183,33 +183,37 @@ def patientenübersicht(patient_id):
         return "Patient nicht gefunden", 404
 
     return render_template(
-        "patientenübersicht.html",
+        "patientenuebersicht.html",
         title="Patientenübersicht",
         patient=patient
     )
 
-# Platzhalter-Routen 
+# Allergien
 @app.route("/patient/<int:patient_id>/allergien", methods=["GET", "POST"])
 @login_required
 def allergien(patient_id):
     return render_template("allergien.html", patient_id=patient_id, title="Allergien")
 
-@app.route("/patient/<int:patient_id>/ernährungspräferenzen", methods=["GET", "POST"])
+# Ernährungspräferenzen
+@app.route("/patient/<int:patient_id>/ernaehrungspraeferenzen", methods=["GET", "POST"])
 @login_required
-def ernährungspräferenzen(patient_id):
-    return render_template("ernährungspräferenzen.html", patient_id=patient_id, title="Ernährungspräferenzen")
+def ernaehrungspraeferenzen(patient_id):
+    return render_template("ernaehrungspraeferenzen.html", patient_id=patient_id, title="Ernährungspräferenzen")
 
+# Medikamente
 @app.route("/patient/<int:patient_id>/medikamente", methods=["GET", "POST"])
 @login_required
 def medikamente(patient_id):
     return render_template("medikamente.html", patient_id=patient_id, title="Medikamente")
 
+# Gerichte
 @app.get("/patient/<int:patient_id>/gerichte")
 @login_required
 def gerichte(patient_id):
     return render_template("gerichte.html", patient_id=patient_id, title="Gerichte")
 
-@app.get("/patient/<int:patient_id>/ernährungsplan")
+# Ernährungsplan
+@app.get("/patient/<int:patient_id>/ernaehrungsplan")
 @login_required
-def ernährungsplan(patient_id):
-    return render_template("ernährungsplan.html", patient_id=patient_id, title="Ernährungsplan")
+def ernaehrungsplan(patient_id):
+    return render_template("ernaehrungsplan.html", patient_id=patient_id, title="Ernährungsplan")
