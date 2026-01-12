@@ -1,11 +1,11 @@
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT NOT NULL PRIMARY KEY IDENTITY,
     username VARCHAR(250) NOT NULL UNIQUE,
     password VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE Patient (
-  patienten_id INT AUTO_INCREMENT PRIMARY KEY,
+  patienten_id INT NOT NULL PRIMARY KEY IDENTITY,
   Name VARCHAR (100) NOT NULL,
   Geburtsdatum DATE,
   Geschlecht VARCHAR(20),
@@ -14,16 +14,24 @@ CREATE TABLE Patient (
   Versicherungsnummer INT
 );
 
+INSERT INTO Patient
+(patienten_id, Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer)
+VALUES
+(1, 'Max Mustermann', '1985-06-15', 'Männlich', 80, 1, 123456789),
+(2, 'Erika Musterfrau', '1990-09-25', 'Weiblich', 65, 0, 987654321),
+(3, 'Hans Beispiel', '1975-12-05', 'Männlich', 90, 1, 456789123),
+(4, 'Anna Beispielin', '2000-03-30', 'Weiblich', 55, 1, 321654987),
+(5, 'Peter Test', '1965-11-20', 'Männlich', 85, 0, 654321789);
 
 CREATE TABLE Allergie (
-  allergie_id INT AUTO_INCREMENT PRIMARY KEY,
+  allergie_id INT NOT NULL PRIMARY KEY IDENTITY,
   Schweregrad INT,
   Name VARCHAR(50),
   Beschreibung MEDIUMTEXT
 );
 
 CREATE TABLE Medikamente (
-  medikament_id INT AUTO_INCREMENT PRIMARY KEY,
+  medikament_id INT NOT NULL PRIMARY KEY IDENTITY,
   Name VARCHAR(50),
   Wirkstoff MEDIUMTEXT,
   Dosis DECIMAL(10,2),
@@ -40,14 +48,14 @@ VALUES
 (5, 'Eisenpraeparat', 'Eisensulfat', 100.00, 'Zur Behandlung von Eisenmangel; nicht mit Milch einnehmen');
 
 CREATE TABLE Gesundheitsbeschwerden (
-  beschwerde_id INT AUTO_INCREMENT PRIMARY KEY,
+  beschwerde_id INT NOT NULL PRIMARY KEY IDENTITY,
   Name VARCHAR(50),
   Beschreibung_Symptome MEDIUMTEXT,
   Schweregrad INT
 );
 
 CREATE TABLE Lebensmittel (
-  lebensmittel_id INT AUTO_INCREMENT PRIMARY KEY,
+  lebensmittel_id INT NOT NULL PRIMARY KEY IDENTITY,
   Name VARCHAR(50),
   Naehrwerte VARCHAR(50)
 );
@@ -65,7 +73,7 @@ VALUES
 (8, 'Ei', 'Protein, Vitamin B12');
 
 CREATE TABLE Gericht (
-  gericht_id INT AUTO_INCREMENT PRIMARY KEY,
+  gericht_id INT NOT NULL PRIMARY KEY IDENTITY,
   Name VARCHAR(50),
   Beschreibung MEDIUMTEXT,
   Portionsgroesse VARCHAR(50),
