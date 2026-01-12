@@ -172,7 +172,7 @@ def add_patient():
 # Use Case 4 Patientenübersicht anzeigen
 @app.get("/patient/<int:patient_id>")
 @login_required
-def patient_detail(patient_id):
+def patientenübersicht(patient_id):
     patient = db_read(
         "SELECT * FROM Patient WHERE patienten_id = %s",
         (patient_id,),
@@ -189,27 +189,27 @@ def patient_detail(patient_id):
     )
 
 # Platzhalter-Routen 
-@app.route("/patient/<int:patient_id>/allergies", methods=["GET", "POST"])
+@app.route("/patient/<int:patient_id>/allergien", methods=["GET", "POST"])
 @login_required
-def edit_allergies(patient_id):
-    return render_template("edit_allergies.html", patient_id=patient_id, title="Allergien")
+def allergien(patient_id):
+    return render_template("allergien.html", patient_id=patient_id, title="Allergien")
 
-@app.route("/patient/<int:patient_id>/preferences", methods=["GET", "POST"])
+@app.route("/patient/<int:patient_id>/ernährungspräferenzen", methods=["GET", "POST"])
 @login_required
-def edit_preferences(patient_id):
-    return render_template("edit_preferences.html", patient_id=patient_id, title="Ernährungsvorlieben")
+def ernährungspräferenzen(patient_id):
+    return render_template("ernährungspräferenzen.html", patient_id=patient_id, title="Ernährungspräferenzen")
 
-@app.route("/patient/<int:patient_id>/medications", methods=["GET", "POST"])
+@app.route("/patient/<int:patient_id>/medikamente", methods=["GET", "POST"])
 @login_required
-def edit_medications(patient_id):
-    return render_template("edit_medications.html", patient_id=patient_id, title="Medikamente")
+def medikamente(patient_id):
+    return render_template("medikamente.html", patient_id=patient_id, title="Medikamente")
 
-@app.get("/patient/<int:patient_id>/dishes")
+@app.get("/patient/<int:patient_id>/gerichte")
 @login_required
-def choose_dishes(patient_id):
-    return render_template("dishes.html", patient_id=patient_id, title="Gerichte")
+def gerichte(patient_id):
+    return render_template("gerichte.html", patient_id=patient_id, title="Gerichte")
 
-@app.get("/patient/<int:patient_id>/plan")
+@app.get("/patient/<int:patient_id>/ernährungsplan")
 @login_required
-def view_plan(patient_id):
-    return render_template("plan.html", patient_id=patient_id, title="Ernährungsplan")
+def ernährungsplan(patient_id):
+    return render_template("ernährungsplan.html", patient_id=patient_id, title="Ernährungsplan")
