@@ -146,7 +146,7 @@ if __name__ == "__main__":
 @app.get("/")
 @login_required
 def patient():
-    patients = db_read ("SELECT * FROM Patient", ())
+    patients = db_read ("SELECT * FROM Patient WHERE Aktivitaetsstatus = 1 ", ())
     return render_template("patient.html", title="Patientenlist", patients = patients)
 
 
@@ -165,7 +165,7 @@ def add_patient():
             (Name, Geburtsdatum, Geschlecht, Gewicht, Versicherungsnummer)
         )
 
-        return redirect(url_for("add_patient"))
+        return redirect(url_for("patient"))
 
     return render_template("add_patient.html")
 
