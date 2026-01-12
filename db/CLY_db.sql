@@ -5,7 +5,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE Patient (
-  patienten_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  patienten_id INT NOT NULL AUTO_INCREMENT,
   Name VARCHAR (100) NOT NULL,
   Geburtsdatum DATE,
   Geschlecht VARCHAR(20),
@@ -16,14 +16,14 @@ CREATE TABLE Patient (
 
 
 CREATE TABLE Allergie (
-  allergie_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  allergie_id INT NOT NULL AUTO_INCREMENT,
   Schweregrad INT,
   Name VARCHAR(50),
   Beschreibung MEDIUMTEXT
 );
 
 CREATE TABLE Medikamente (
-  medikament_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  medikament_id INT NOT NULL AUTO_INCREMENT,
   Name VARCHAR(50),
   Wirkstoff MEDIUMTEXT,
   Dosis DECIMAL(10,2),
@@ -40,14 +40,14 @@ VALUES
 (5, 'Eisenpraeparat', 'Eisensulfat', 100.00, 'Zur Behandlung von Eisenmangel; nicht mit Milch einnehmen');
 
 CREATE TABLE Gesundheitsbeschwerden (
-  beschwerde_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  beschwerde_id INT NOT NULL AUTO_INCREMENT,
   Name VARCHAR(50),
   Beschreibung_Symptome MEDIUMTEXT,
   Schweregrad INT
 );
 
 CREATE TABLE Lebensmittel (
-  lebensmittel_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  lebensmittel_id INT NOT NULL AUTO_INCREMENT,
   Name VARCHAR(50),
   Naehrwerte VARCHAR(50)
 );
@@ -65,7 +65,7 @@ VALUES
 (8, 'Ei', 'Protein, Vitamin B12');
 
 CREATE TABLE Gericht (
-  gericht_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  gericht_id INT NOT NULL AUTO_INCREMENT,
   Name VARCHAR(50),
   Beschreibung MEDIUMTEXT,
   Portionsgroesse VARCHAR(50),
