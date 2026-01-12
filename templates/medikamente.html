@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ Medikamente }}</h2>
+<p>Patient ID: {{ patient_id }}</p>
+<p><em>Hier kommen Checkboxen rein (kommt als nächster Schritt).</em></p>
+<a class="btn btn-default" href="{{ url_for('patientenübersicht', patient_id=patient_id) }}">← Zurück</a>
+{% endblock %}

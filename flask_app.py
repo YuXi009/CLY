@@ -187,3 +187,29 @@ def patient_detail(patient_id):
         title="Patientenübersicht",
         patient=patient
     )
+
+# Platzhalter-Routen 
+@app.route("/patient/<int:patient_id>/allergies", methods=["GET", "POST"])
+@login_required
+def edit_allergies(patient_id):
+    return render_template("edit_allergies.html", patient_id=patient_id, title="Allergien")
+
+@app.route("/patient/<int:patient_id>/preferences", methods=["GET", "POST"])
+@login_required
+def edit_preferences(patient_id):
+    return render_template("edit_preferences.html", patient_id=patient_id, title="Ernährungsvorlieben")
+
+@app.route("/patient/<int:patient_id>/medications", methods=["GET", "POST"])
+@login_required
+def edit_medications(patient_id):
+    return render_template("edit_medications.html", patient_id=patient_id, title="Medikamente")
+
+@app.get("/patient/<int:patient_id>/dishes")
+@login_required
+def choose_dishes(patient_id):
+    return render_template("dishes.html", patient_id=patient_id, title="Gerichte")
+
+@app.get("/patient/<int:patient_id>/plan")
+@login_required
+def view_plan(patient_id):
+    return render_template("plan.html", patient_id=patient_id, title="Ernährungsplan")

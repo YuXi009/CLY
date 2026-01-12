@@ -25,5 +25,21 @@
 <h3>Bearbeiten</h3>
 <p>Wähle aus, was du für diese Person bearbeiten möchtest:</p>
 
-
+<div class="list-group">
+  <a class="list-group-item" href="{{ url_for('edit_allergies', patient_id=patient.patienten_id) }}">
+    Allergien bearbeiten
+  </a>
+  <a class="list-group-item" href="{{ url_for('edit_preferences', patient_id=patient.patienten_id) }}">
+    Ernährungsvorlieben bearbeiten
+  </a>
+  <a class="list-group-item" href="{{ url_for('edit_medications', patient_id=patient.patienten_id) }}">
+    Medikamente bearbeiten
+  </a>
+  <a class="list-group-item" href="{{ url_for('choose_dishes', patient_id=patient.patienten_id) }}">
+    Gerichte auswählen / filtern
+  </a>
+  <a class="list-group-item" href="{{ url_for('view_plan', patient_id=patient.patienten_id) }}">
+    Ernährungsplan ansehen
+  </a>
+</div>
 {% endblock %}
