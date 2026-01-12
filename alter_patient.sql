@@ -1,2 +1,0 @@
-DELETE FROM Patient WHERE patienten_id = 0;
-ALTER TABLE Patient MODIFY patienten_id INT NOT NULL AUTO_INCREMENT;
