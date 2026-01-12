@@ -9,7 +9,7 @@
 
     {% for patient in patients %}
       <a class="list-group-item"
-         href="/patient/{{ patient.Name }}">
+         href="/patient/{{ patient.patienten_id }}">
         {{ patient.Name }}
       </a>
     {% endfor %}

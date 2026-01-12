@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Patientendatenübersicht</h2>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <strong>{{ patient.Name }}</strong> (ID: {{ patient.patienten_id }})
+  </div>
+  <div class="panel-body">
+    <p><strong>Geburtsdatum:</strong> {{ patient.Geburtsdatum }}</p>
+    <p><strong>Geschlecht:</strong> {{ patient.Geschlecht }}</p>
+    <p><strong>Gewicht:</strong> {{ patient.Gewicht }} kg</p>
+    <p><strong>Versicherungsnummer:</strong> {{ patient.Versicherungsnummer }}</p>
+  </div>
+</div>
+
+<div class="btn-group" role="group" style="margin-bottom: 15px;">
+  <a class="btn btn-default" href="{{ url_for('patient') }}">← Zur Patientenliste</a>
+  <a class="btn btn-success" href="{{ url_for('add_patient') }}">+ Neuer Patient</a>
+</div>
+
+<hr>
+
+<h3>Bearbeiten</h3>
+<p>Wähle aus, was du für diese Person bearbeiten möchtest:</p>
+
+<div class="list-group">
+  <a class="list-group-item" href="{{ url_for('edit_allergies', patient_id=patient.patienten_id) }}">
+    Allergien bearbeiten
+  </a>
+  <a class="list-group-item" href="{{ url_for('edit_preferences', patient_id=patient.patienten_id) }}">
+    Ernährungsvorlieben bearbeiten
+  </a>
+  <a class="list-group-item" href="{{ url_for('edit_medications', patient_id=patient.patienten_id) }}">
+    Medikamente bearbeiten
+  </a>
+  <a class="list-group-item" href="{{ url_for('choose_dishes', patient_id=patient.patienten_id) }}">
+    Gerichte auswählen / filtern
+  </a>
+  <a class="list-group-item" href="{{ url_for('view_plan', patient_id=patient.patienten_id) }}">
+    Ernährungsplan ansehen
+  </a>
+</div>
+{% endblock %}

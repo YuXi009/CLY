@@ -142,7 +142,7 @@ if __name__ == "__main__":
     app.run()
 '''
 
-# Use Case 4
+# Patientenliste
 @app.get("/")
 @login_required
 def patient():
@@ -150,7 +150,7 @@ def patient():
     return render_template("patient.html", title="Patientenlist", patients = patients)
 
 
-#UseCase 1
+#UseCase 1 Patient erfassen
 @app.route("/add_patient", methods=["GET", "POST"])
 @login_required
 def add_patient():
@@ -169,3 +169,21 @@ def add_patient():
 
     return render_template("add_patient.html")
 
+# Use Case 4 Patientenübersicht anzeigen
+@app.get("/patient/<int:patient_id>")
+@login_required
+def patient_detail(patient_id):
+    patient = db_read(
+        "SELECT * FROM Patient WHERE patienten_id = %s",
+        (patient_id,),
+        single=True
+    )
+
+    if not patient:
+        return "Patient nicht gefunden", 404
+
+    return render_template(
+        "patientenübersicht.html",
+        title="Patientenübersicht",
+        patient=patient
+    )
