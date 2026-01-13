@@ -43,7 +43,7 @@ CREATE TABLE Patienten_Ernaerungspraeferenzen (
   praeferenz_id INT NOT NULL,
   PRIMARY KEY (patienten_id, praeferenz_id),
   FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
-  FOREIGN KEY (praeferenz_id) REFERENCES Ernaerungspraeferenzen(praferenz_id)
+  FOREIGN KEY (praeferenz_id) REFERENCES Ernaerungspraeferenzen(praeferenz_id)
 );
 INSERT INTO Ernaerungspraeferenzen (Name) VALUES
 ('Vegetarisch'),
