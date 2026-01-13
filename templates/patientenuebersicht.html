@@ -26,7 +26,7 @@
 <p>Wähle aus, was du für diese Person bearbeiten möchtest:</p>
 
 <div class="list-group">
-  <a class="list-group-item" href="{{ url_for('allergies', patient_id=patient.patienten_id) }}">
+  <a class="list-group-item" href="{{ url_for('allergien', patient_id=patient.patienten_id) }}">
     Allergien bearbeiten
   </a>
   <a class="list-group-item" href="{{ url_for('ernaehrungspraeferenzen', patient_id=patient.patienten_id) }}">
