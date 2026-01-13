@@ -198,10 +198,7 @@ def patientenuebersicht(patient_id):
 def allergien(patient_id):
     # Patient holen
     patient = db_read(
-        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
-        (patient_id,),
-        single=True
-        )
+        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s", (patient_id,), single=True )
     if not patient:
         return "Patient nicht gefunden", 404
 
