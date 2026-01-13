@@ -196,22 +196,24 @@ def patientenuebersicht(patient_id):
 @app.route("/patient/<int:patient_id>/allergien", methods=["GET", "POST"])
 @login_required
 def allergien(patient_id):
-    # Patient holen
     patient = db_read(
-        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s", (patient_id,), single=True )
+        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
+        (patient_id,),
+        single=True
+    )
+
     if not patient:
         return "Patient nicht gefunden", 404
 
-    # POST: Speichern
     if request.method == "POST":
-        selected_id = request.form.getlist("allergie_id")
+        selected_ids = request.form.getlist("allergie_id")
 
         db_write(
             "DELETE FROM Patient_Allergie WHERE patienten_id = %s",
             (patient_id,)
         )
 
-        for aid in selected_id:
+        for aid in selected_ids:
             db_write(
                 "INSERT INTO Patient_Allergie (patienten_id, allergie_id) VALUES (%s, %s)",
                 (patient_id, int(aid))
@@ -219,17 +221,16 @@ def allergien(patient_id):
 
         return redirect(url_for("patientenuebersicht", patient_id=patient_id))
 
-    # GET: Alle Allergien laden (für Checkboxen-Liste)
     allergies = db_read(
         "SELECT allergie_id, Name FROM Allergie ORDER BY Name",
         ()
     )
 
-    # GET: Bereits ausgewählte Allergien laden
     rows = db_read(
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
         (patient_id,)
     )
+
     selected_set = {r["allergie_id"] for r in rows}
 
     return render_template(
