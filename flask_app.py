@@ -173,12 +173,12 @@ def add_patient():
 
 
 # Use Case 4 Patientenübersicht anzeigen
-@app.get("/patient/<int:patient_id>")
+@app.get("/patient/<int:patienten_id>")
 @login_required
-def patientenuebersicht(patient_id):
+def patientenuebersicht(patienten_id):
     patient = db_read(
         "SELECT * FROM Patient WHERE patienten_id = %s",
-        (patient_id,),
+        (patienten_id,),
         single=True
     )
 
@@ -193,12 +193,12 @@ def patientenuebersicht(patient_id):
 
 
 # Allergien
-@app.route("/patient/<int:patient_id>/allergien", methods=["GET", "POST"])
+@app.route("/patient/<int:patienten_id>/allergien", methods=["GET", "POST"])
 @login_required
-def allergien(patient_id):
+def allergien(patienten_id):
     patient = db_read(
         "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
-        (patient_id,),
+        (patienten_id,),
         single=True
     )
 
@@ -210,25 +210,25 @@ def allergien(patient_id):
 
         db_write(
             "DELETE FROM Patient_Allergie WHERE patienten_id = %s",
-            (patient_id,)
+            (patienten_id,)
         )
 
         for aid in selected_ids:
             db_write(
                 "INSERT INTO Patient_Allergie (patienten_id, allergie_id) VALUES (%s, %s)",
-                (patient_id, int(aid))
+                (patienten_id, int(aid))
             )
 
-        return redirect(url_for("patientenuebersicht", patient_id=patient_id))
+        return redirect(url_for("patientenuebersicht", patienten_id=patienten_id))
 
     allergies = db_read(
         "SELECT allergie_id, Name FROM Allergie ORDER BY Name",
-        (allergie_id,)
+        ()
     )
 
     rows = db_read(
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
-        (patient_id,)
+        (patienten_id,)
     )
 
     selected_set = {r["allergie_id"] for r in rows}
@@ -243,13 +243,13 @@ def allergien(patient_id):
 
 
 # Ernährungspräferenzen
-@app.route("/patient/<int:patient_id>/ernaehrungspraeferenzen", methods=["GET", "POST"])
+@app.route("/patient/<int:patienten_id>/ernaehrungspraeferenzen", methods=["GET", "POST"])
 @login_required
-def ernaehrungspraeferenzen(patient_id):
+def ernaehrungspraeferenzen(patienten_id):
     # Patient holen
     patient = db_read(
         "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
-        (patient_id,),
+        (patienten_id,),
         single=True
     )
     if not patient:
@@ -261,16 +261,16 @@ def ernaehrungspraeferenzen(patient_id):
 
         db_write(
             "DELETE FROM Patient_Ernaehrungspraeferenz WHERE patienten_id = %s",
-            (patient_id,)
+            (patienten_id,)
         )
 
         for pid in selected_ids:
             db_write(
                 "INSERT INTO Patient_Ernaehrungspraeferenz (patienten_id, praeferenz_id) VALUES (%s, %s)",
-                (patient_id, int(pid))
+                (patienten_id, int(pid))
             )
 
-        return redirect(url_for("patientenuebersicht", patient_id=patient_id))
+        return redirect(url_for("patientenuebersicht", patienten_id=patienten_id))
 
     # GET: Alle Präferenzen laden
     preferences = db_read(
@@ -281,7 +281,7 @@ def ernaehrungspraeferenzen(patient_id):
     # GET: Bereits ausgewählte Präferenzen laden
     rows = db_read(
         "SELECT praeferenz_id FROM Patient_Ernaehrungspraeferenz WHERE patienten_id = %s",
-        (patient_id,)
+        (patienten_id,)
     )
     selected_set = {r["praeferenz_id"] for r in rows}
 
@@ -296,13 +296,13 @@ def ernaehrungspraeferenzen(patient_id):
 
 
 # Medikamente
-@app.route("/patient/<int:patient_id>/medikamente", methods=["GET", "POST"])
+@app.route("/patient/<int:patienten_id>/medikamente", methods=["GET", "POST"])
 @login_required
-def medikamente(patient_id):
+def medikamente(patienten_id):
     # Patient holen
     patient = db_read(
         "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
-        (patient_id,),
+        (patienten_id,),
         single=True
     )
     if not patient:
@@ -314,16 +314,16 @@ def medikamente(patient_id):
 
         db_write(
             "DELETE FROM Patient_Medikament WHERE patienten_id = %s",
-            (patient_id,)
+            (patienten_id,)
         )
 
         for mid in selected_ids:
             db_write(
                 "INSERT INTO Patient_Medikament (patienten_id, medikament_id) VALUES (%s, %s)",
-                (patient_id, int(mid))
+                (patienten_id, int(mid))
             )
 
-        return redirect(url_for("patientenuebersicht", patient_id=patient_id))
+        return redirect(url_for("patientenuebersicht", patienten_id=patienten_id))
 
     # GET: Alle Medikamente laden
     meds = db_read(
@@ -334,7 +334,7 @@ def medikamente(patient_id):
     # GET: Bereits ausgewählte Medikamente laden
     rows = db_read(
         "SELECT medikament_id FROM Patient_Medikament WHERE patienten_id = %s",
-        (patient_id,)
+        (patienten_id,)
     )
     selected_set = {r["medikament_id"] for r in rows}
 
@@ -349,22 +349,22 @@ def medikamente(patient_id):
 
 
 # Gerichte
-@app.get("/patient/<int:patient_id>/gerichte")
+@app.get("/patient/<int:patienten_id>/gerichte")
 @login_required
-def gerichte(patient_id):
+def gerichte(patienten_id):
     return render_template(
         "gerichte.html",
-        patient_id=patient_id,
+        patienten_id=patienten_id,
         title="Gerichte"
     )
 
 
 # Ernährungsplan
-@app.get("/patient/<int:patient_id>/ernaehrungsplan")
+@app.get("/patient/<int:patienten_id>/ernaehrungsplan")
 @login_required
-def ernaehrungsplan(patient_id):
+def ernaehrungsplan(patienten_id):
     return render_template(
         "ernaehrungsplan.html",
-        patient_id=patient_id,
+        patienten_id=patienten_id,
         title="Ernährungsplan"
     )

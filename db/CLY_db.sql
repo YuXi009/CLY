@@ -20,12 +20,12 @@ CREATE TABLE Allergie (
   Name VARCHAR(100)
 );
 
-CREATE TABLE Patient_Allergie (
+CREATE TABLE IF NOT EXISTS Patient_Allergie (
   patienten_id INT NOT NULL,
   allergie_id INT NOT NULL,
   PRIMARY KEY (patienten_id, allergie_id),
-  FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
-  FOREIGN KEY (allergie_id) REFERENCES Allergie(allergie_id)
+  FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id) ON DELETE CASCADE,
+  FOREIGN KEY (allergie_id) REFERENCES Allergie(allergie_id) ON DELETE CASCADE
 );
 
 INSERT INTO Allergie
