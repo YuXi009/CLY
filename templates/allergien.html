@@ -5,15 +5,17 @@
 <p><strong>Patient:</strong> {{ patient.Name }} (ID {{ patient.patienten_id }})</p>
 
 <form method="post">
+  <p> Bitte wähle die Allergien aus: </p>
+
   <div class="list-group">
 
-    {% for allergies in allergien %}
+    {% for a in allergies %}
       <label class="list-group-item">
         <input type="checkbox"
                name="allergie_id"
-               value="{{ allergies.allergie_id }}"
-               {% if allergies.allergie_id in selected_set %}checked{% endif %}>
-        {{ aallergies.Name }}
+               value="{{ a.allergie_id }}"
+               {% if a.allergie_id in selected_set %}checked{% endif %}>
+        {{ a.Name }}
       </label>
     {% endfor %}
 
@@ -24,7 +26,7 @@
   <button class="btn btn-primary">Speichern</button>
   <a class="btn btn-default"
      href="{{ url_for('patientenuebersicht', patient_id=patient.patienten_id) }}">
-    Abbrechen
+    Zurück
   </a>
 </form>
 

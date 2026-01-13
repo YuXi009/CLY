@@ -20,8 +20,18 @@ CREATE TABLE Allergie (
   Name VARCHAR(100),
 );
 
-INSERT INTO Allergie (Name) VALUES
-("Nüsse"), ("Laktose"), ("Gluten"), ("Eier"), ("Fisch"), ("Soja");
+CREATE TABLE Patient_Allergie (
+  patienten_id INT NOT NULL,
+  allergie_id INT NOT NULL,
+  PRIMARY KEY (patienten_id, allergie_id),
+  FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
+  FOREIGN KEY (allergie_id) REFERENCES Allergie(allergie_id)
+);
+
+INSERT INTO Allergie
+(allergie_id, Name)
+VALUES
+(1, "Nüsse"), (2, "Erdnüsse"), (3, "Laktose"), (4, "Gluten"), (5, "Eier"), (6, "Fisch"), (7, "Meeresfrüchte"), (8, "Soja"), (9, "Sesam");
 
 CREATE TABLE Medikamente (
   medikament_id INT NOT NULL AUTO_INCREMENT,
