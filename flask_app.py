@@ -200,6 +200,7 @@ def allergien(patient_id):
     )
     if not patient:
         return "Patient nicht gefunden", 404
+
     # POST: Speichern
     if request.method == "POST":
         selected_id = request.form.getlist("allergie_id")
@@ -211,7 +212,7 @@ def allergien(patient_id):
             )
         return redirect(url_for("patientenuebersicht", patient_id=patient_id))
 # GET: Alle Allergien laden (für Checkboxen-Liste)
-    allergies = db_read( "SELECT allergie_id, Name FROM Allergie WHERE ORDER BY Name", ())
+    allergies = db_read( "SELECT allergie_id, Name FROM Allergie ORDER BY Name", ())
 # GET: Bereits ausgewählte Allergien laden
     rows = db_read(
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
@@ -219,10 +220,10 @@ def allergien(patient_id):
     )
     selected_set = {r["allergie_id"] for r in rows}
     return render_template(
-        "allergien.html", 
-        title = "Allergien bearbeiten", 
-        patient=patient, 
-        allergies=allergies, 
+        "allergien.html",
+        title = "Allergien bearbeiten",
+        patient=patient,
+        allergies=allergies,
         selected_set=selected_set
     )
 
