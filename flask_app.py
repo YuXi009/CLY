@@ -301,11 +301,53 @@ def ernaehrungspraeferenzen(patient_id):
 @app.route("/patient/<int:patient_id>/medikamente", methods=["GET", "POST"])
 @login_required
 def medikamente(patient_id):
+    # Patient holen
+    patient = db_read(
+        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
+        (patient_id,),
+        single=True
+    )
+    if not patient:
+        return "Patient nicht gefunden", 404
+
+    # POST: Speichern
+    if request.method == "POST":
+        selected_ids = request.form.getlist("medikament_id")
+
+        db_write(
+            "DELETE FROM Patient_Medikament WHERE patienten_id = %s",
+            (patient_id,)
+        )
+
+        for mid in selected_ids:
+            db_write(
+                "INSERT INTO Patient_Medikament (patienten_id, medikament_id) VALUES (%s, %s)",
+                (patient_id, int(mid))
+            )
+
+        return redirect(url_for("patientenuebersicht", patient_id=patient_id))
+
+    # GET: Alle Medikamente laden
+    meds = db_read(
+        "SELECT medikament_id, Name FROM Medikament ORDER BY Name",
+        ()
+    )
+
+    # GET: Bereits ausgewählte Medikamente laden
+    rows = db_read(
+        "SELECT medikament_id FROM Patient_Medikament WHERE patienten_id = %s",
+        (patient_id,)
+    )
+    selected_set = {r["medikament_id"] for r in rows}
+
     return render_template(
         "medikamente.html",
-        patient_id=patient_id,
-        title="Medikamente"
+        title="Medikamente bearbeiten",
+        patient=patient,
+        meds=meds,
+        selected_set=selected_set
     )
+
 
 
 # Gerichte

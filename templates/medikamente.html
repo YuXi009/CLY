@@ -1,7 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2>{{ title }}</h2>
-<p>Patient ID: {{ patient_id }}</p>
-<p><em>Hier kommen Checkboxen rein (kommt als nächster Schritt).</em></p>
-<a class="btn btn-default" href="{{ url_for('patientenuebersicht', patient_id=patient_id) }}">← Zurück</a>
+<p><strong>Patient:</strong> {{ patient.Name }} (ID {{ patient.patienten_id }})</p>
+
+<form method="post">
+  <p>Bitte wähle die Medikamente aus:</p>
+
+  <div class="list-group">
+    {% for m in meds %}
+      <label class="list-group-item">
+        <input type="checkbox"
+               name="medikament_id"
+               value="{{ m.medikament_id }}"
+               {% if m.medikament_id in selected_set %}checked{% endif %}>
+        {{ m.Name }}
+      </label>
+    {% endfor %}
+  </div>
+
+  <hr>
+
+  <button class="btn btn-primary">Speichern</button>
+  <a class="btn btn-default"
+     href="{{ url_for('patientenuebersicht', patient_id=patient.patienten_id) }}">
+    Zurück
+  </a>
+</form>
+
 {% endblock %}

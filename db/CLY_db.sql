@@ -54,16 +54,24 @@ INSERT INTO Ernaerungspraeferenzen (Name) VALUES
 ('Koscher'),
 ('Kein Schweinefleisch');
 
-CREATE TABLE Medikamente (
+CREATE TABLE Medikament (
   medikament_id INT NOT NULL AUTO_INCREMENT,
-  Name VARCHAR(50),
-  Wirkstoff MEDIUMTEXT,
-  Dosis DECIMAL(10,2),
+  Name VARCHAR(100),
+  Wirkstoff VARCHAR(100),
+  Dosierung DECIMAL(10,2),
   Beschreibung MEDIUMTEXT
 );
 
-INSERT INTO Medikamente 
-(medikament_id, Name, Wirkstoff, Dosis, Beschreibung)
+CREATE TABLE Patient_Medikament (
+  patienten_id INT NOT NULL,
+  medikament_id INT NOT NULL,
+  PRIMARY KEY (patienten_id, medikament_id),
+  FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
+  FOREIGN KEY (medikament_id) REFERENCES Medikament(medikament_id)
+);
+
+INSERT INTO Medikament 
+(medikament_id, Name, Wirkstoff, Dosierung, Beschreibung)
 VALUES
 (1, 'Aspirin', 'Acetylsalicylsäure', 500.00, 'Schmerzmittel, entzündungshemmend; kann Magen reizen'),
 (2, 'Paracetamol', 'Paracetamol', 500.00, 'Schmerz- und fiebersenkend; leberschonend dosieren'),
