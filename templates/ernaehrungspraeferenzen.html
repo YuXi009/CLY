@@ -8,13 +8,13 @@
   <p>Bitte wähle die Ernährungspräferenzen aus:</p>
 
   <div class="list-group">
-    {% for p in preferences %}
+    {% for patient in preferences %}
       <label class="list-group-item">
         <input type="checkbox"
                name="praeferenz_id"
-               value="{{ p.praeferenz_id }}"
-               {% if p.praeferenz_id in selected_set %}checked{% endif %}>
-        {{ p.Name }}
+               value="{{ patient.praeferenz_id }}"
+               {% if patient.praeferenz_id in selected_set %}checked{% endif %}>
+        {{ patient.Name }}
       </label>
     {% endfor %}
   </div>
