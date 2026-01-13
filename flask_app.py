@@ -223,7 +223,7 @@ def allergien(patient_id):
 
     allergies = db_read(
         "SELECT allergie_id, Name FROM Allergie ORDER BY Name",
-        ()
+        (allergie_id,)
     )
 
     rows = db_read(
