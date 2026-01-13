@@ -9,13 +9,13 @@
 
   <div class="list-group">
 
-    {% for a in allergies %}
+    {% for allergien in allergies %}
       <label class="list-group-item">
         <input type="checkbox"
                name="allergie_id"
-               value="{{ a.allergie_id }}"
-               {% if a.allergie_id in selected_set %}checked{% endif %}>
-        {{ a.Name }}
+               value="{{ allergien.allergie_id }}"
+               {% if allergien.allergie_id in selected_set %}checked{% endif %}>
+        {{ allergien.Name }}
       </label>
     {% endfor %}
 
