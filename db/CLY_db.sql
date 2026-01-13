@@ -31,7 +31,28 @@ CREATE TABLE Patient_Allergie (
 INSERT INTO Allergie
 (allergie_id, Name)
 VALUES
-(1, "Nüsse"), (2, "Erdnüsse"), (3, "Laktose"), (4, "Gluten"), (5, "Eier"), (6, "Fisch"), (7, "Meeresfrüchte"), (8, "Soja"), (9, "Sesam");
+(1,'Nüsse'), (2, 'Erdnüsse'), (3, 'Laktose'), (4, 'Gluten'), (5, 'Eier'), (6, 'Fisch'), (7, 'Meeresfrüchte'), (8, 'Soja'), (9, 'Sesam');
+
+CREATE TABLE Ernaerungspraeferenzen (
+  praeferenz_id INT NOT NULL AUTO_INCREMENT,
+  Name VARCHAR(100)
+);
+
+CREATE Patienten_Ernaerungspraeferenzen (
+  patienten_id INT NOT NULL,
+  praeferenz_id INT NOT NULL,
+  PRIMARY KEY (patienten_id, praeferenz_id),
+  FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
+  FOREIGN KEY (praeferenz_id) REFERENCES Ernaerungspraeferenzen(praferenz_id)
+);
+INSERT INTO Ernaerungspraeferenzen (Name) VALUES
+('Vegetarisch'),
+('Vegan'),
+('Glutenfrei'),
+('Laktosefrei'),
+('Halal'),
+('Koscher'),
+('Kein Schweinefleisch');
 
 CREATE TABLE Medikamente (
   medikament_id INT NOT NULL AUTO_INCREMENT,
@@ -50,12 +71,6 @@ VALUES
 (4, 'Metformin', 'Metforminhydrochlorid', 850.00, 'Blutzuckersenkend bei Diabetes Typ 2'),
 (5, 'Eisenpraeparat', 'Eisensulfat', 100.00, 'Zur Behandlung von Eisenmangel; nicht mit Milch einnehmen');
 
-CREATE TABLE Gesundheitsbeschwerden (
-  beschwerde_id INT NOT NULL AUTO_INCREMENT,
-  Name VARCHAR(50),
-  Beschreibung_Symptome MEDIUMTEXT,
-  Schweregrad INT
-);
 
 CREATE TABLE Lebensmittel (
   lebensmittel_id INT NOT NULL AUTO_INCREMENT,

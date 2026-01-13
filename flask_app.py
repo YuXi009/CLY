@@ -248,11 +248,53 @@ def allergien(patient_id):
 @app.route("/patient/<int:patient_id>/ernaehrungspraeferenzen", methods=["GET", "POST"])
 @login_required
 def ernaehrungspraeferenzen(patient_id):
+    # Patient holen
+    patient = db_read(
+        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
+        (patient_id,),
+        single=True
+    )
+    if not patient:
+        return "Patient nicht gefunden", 404
+
+    # POST: Speichern
+    if request.method == "POST":
+        selected_ids = request.form.getlist("praeferenz_id")
+
+        db_write(
+            "DELETE FROM Patient_Ernaehrungspraeferenz WHERE patienten_id = %s",
+            (patient_id,)
+        )
+
+        for pid in selected_ids:
+            db_write(
+                "INSERT INTO Patient_Ernaehrungspraeferenz (patienten_id, praeferenz_id) VALUES (%s, %s)",
+                (patient_id, int(pid))
+            )
+
+        return redirect(url_for("patientenuebersicht", patient_id=patient_id))
+
+    # GET: Alle Präferenzen laden
+    preferences = db_read(
+        "SELECT praeferenz_id, Name FROM Ernaehrungspraeferenz ORDER BY Name",
+        ()
+    )
+
+    # GET: Bereits ausgewählte Präferenzen laden
+    rows = db_read(
+        "SELECT praeferenz_id FROM Patient_Ernaehrungspraeferenz WHERE patienten_id = %s",
+        (patient_id,)
+    )
+    selected_set = {r["praeferenz_id"] for r in rows}
+
     return render_template(
         "ernaehrungspraeferenzen.html",
-        patient_id=patient_id,
-        title="Ernährungspräferenzen"
+        title="Ernährungspräferenzen bearbeiten",
+        patient=patient,
+        preferences=preferences,
+        selected_set=selected_set
     )
+
 
 
 # Medikamente
