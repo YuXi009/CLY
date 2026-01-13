@@ -9,7 +9,7 @@
 
     {% for patient in patients %}
       <a class="list-group-item"
-         href="{{ url_for('patientenuebersicht', patient_id=patient.patienten_id) }}">
+         href="{{ url_for('patientenuebersicht', patienten_id=patient.patienten_id) }}">
 
         {{ patient.Name }}
         </a>
