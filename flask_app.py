@@ -192,48 +192,8 @@ def patientenuebersicht(patient_id):
 @app.route("/patient/<int:patient_id>/allergien", methods=["GET", "POST"])
 @login_required
 def allergien(patient_id):
-    # Patient holen (für Anzeige/Check)
-    patient = db_read(
-        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
-        (patient_id,),
-        single=True
-    )
-    if not patient:
-        return "Patient nicht gefunden", 404
+   return render_template("allergien.html", patient_id=patient_id, title="Allergien")
 
-    if request.method == "POST":
-        # ausgewählte Allergie-IDs kommen als Liste
-        selected_ids = request.form.getlist("allergie_id")  # z.B. ["1","3"]
-
-        # 1) alte Zuordnungen löschen
-        db_write("DELETE FROM Patient_Allergie WHERE patienten_id = %s", (patient_id,))
-
-        # 2) neue Zuordnungen speichern
-        for aid in selected_ids:
-            db_write(
-                "INSERT INTO Patient_Allergie (patienten_id, allergie_id) VALUES (%s, %s)",
-                (patient_id, int(aid))
-            )
-
-        # zurück zur Patientenseite (Seite 4)
-        return redirect(url_for("patientenübersicht", patient_id=patient_id))
-
-    # GET: Alle Allergien + bereits ausgewählte Allergien laden
-    allergies = db_read("SELECT allergie_id, Name FROM Allergie ORDER BY Name", ())
-
-    selected_rows = db_read(
-        "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
-        (patient_id,)
-    )
-    selected_set = {row["allergie_id"] for row in selected_rows}
-
-    return render_template(
-        "allergien.html",
-        title="Allergien bearbeiten",
-        patient=patient,
-        allergies=allergies,
-        selected_set=selected_set
-    )
 
 # Ernährungspräferenzen
 @app.route("/patient/<int:patient_id>/ernaehrungspraeferenzen", methods=["GET", "POST"])
