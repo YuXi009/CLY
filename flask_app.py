@@ -169,7 +169,7 @@ def add_patient():
 
     return render_template("add_patient.html")
 
-# Use Case 4 Patientenübersicht anzeigen
+# Use Case 4 Patientenübersicht anzeigen *
 @app.get("/patient/<int:patient_id>")
 @login_required
 def patientenuebersicht(patient_id):
