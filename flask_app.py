@@ -191,9 +191,8 @@ def patientenuebersicht(patient_id):
 # Allergien
 @app.route("/patient/<int:patient_id>/allergien", methods=["GET", "POST"])
 @login_required
-def allergien(patient_id):
-   return render_template("allergien.html", patient_id=patient_id, title="Allergien")
-
+def allergies(patient_id):
+    return render_template("allergien.html", patient_id=patient_id, title="Allergien")
 
 # Ernährungspräferenzen
 @app.route("/patient/<int:patient_id>/ernaehrungspraeferenzen", methods=["GET", "POST"])
