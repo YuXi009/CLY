@@ -193,7 +193,7 @@ def patientenuebersicht(patient_id):
 @login_required
 def allergien(patient_id):
     # Patient holen
-     patient = db_read(
+    patient = db_read(
         "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
         (patient_id,),
         single=True
