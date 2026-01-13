@@ -1,11 +1,11 @@
 CREATE TABLE users (
-    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(250) NOT NULL UNIQUE,
     password VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE Patient (
-  patienten_id INT NOT NULL AUTO_INCREMENT,
+  patienten_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR (100) NOT NULL,
   Geburtsdatum DATE,
   Geschlecht VARCHAR(20),
@@ -16,8 +16,8 @@ CREATE TABLE Patient (
 
 
 CREATE TABLE Allergie (
-  allergie_id INT NOT NULL AUTO_INCREMENT,
-  Name VARCHAR(100),
+  allergie_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(100)
 );
 
 CREATE TABLE Patient_Allergie (
@@ -34,11 +34,11 @@ VALUES
 (1,'Nüsse'), (2, 'Erdnüsse'), (3, 'Laktose'), (4, 'Gluten'), (5, 'Eier'), (6, 'Fisch'), (7, 'Meeresfrüchte'), (8, 'Soja'), (9, 'Sesam');
 
 CREATE TABLE Ernaerungspraeferenzen (
-  praeferenz_id INT NOT NULL AUTO_INCREMENT,
+  praeferenz_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(100)
 );
 
-CREATE Patienten_Ernaerungspraeferenzen (
+CREATE TABLE Patienten_Ernaerungspraeferenzen (
   patienten_id INT NOT NULL,
   praeferenz_id INT NOT NULL,
   PRIMARY KEY (patienten_id, praeferenz_id),
@@ -55,7 +55,7 @@ INSERT INTO Ernaerungspraeferenzen (Name) VALUES
 ('Kein Schweinefleisch');
 
 CREATE TABLE Medikament (
-  medikament_id INT NOT NULL AUTO_INCREMENT,
+  medikament_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(100),
   Wirkstoff VARCHAR(100),
   Dosierung DECIMAL(10,2),
@@ -81,7 +81,7 @@ VALUES
 
 
 CREATE TABLE Lebensmittel (
-  lebensmittel_id INT NOT NULL AUTO_INCREMENT,
+  lebensmittel_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(50),
   Naehrwerte VARCHAR(50)
 );
@@ -99,7 +99,7 @@ VALUES
 (8, 'Ei', 'Protein, Vitamin B12');
 
 CREATE TABLE Gericht (
-  gericht_id INT NOT NULL AUTO_INCREMENT,
+  gericht_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(50),
   Beschreibung MEDIUMTEXT,
   Portionsgroesse VARCHAR(50),
