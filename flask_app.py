@@ -160,14 +160,17 @@ def add_patient():
         Geschlecht = request.form["Geschlecht"]
         Gewicht = request.form["Gewicht"]
         Versicherungsnummer = request.form["Versicherungsnummer"]
+
         db_write(
-            "INSERT INTO Patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer) VALUES (%s, %s, %s, %s, 1, %s)",
+            "INSERT INTO Patient (Name, Geburtsdatum, Geschlecht, Gewicht, Aktivitaetsstatus, Versicherungsnummer) "
+            "VALUES (%s, %s, %s, %s, 1, %s)",
             (Name, Geburtsdatum, Geschlecht, Gewicht, Versicherungsnummer)
         )
 
         return redirect(url_for("patient"))
 
     return render_template("add_patient.html")
+
 
 # Use Case 4 Patientenübersicht anzeigen
 @app.get("/patient/<int:patient_id>")
@@ -188,6 +191,7 @@ def patientenuebersicht(patient_id):
         patient=patient
     )
 
+
 # Allergien
 @app.route("/patient/<int:patient_id>/allergien", methods=["GET", "POST"])
 @login_required
@@ -204,49 +208,81 @@ def allergien(patient_id):
     # POST: Speichern
     if request.method == "POST":
         selected_id = request.form.getlist("allergie_id")
-        db_write("DELETE FROM Patient_Allergie WHERE patienten_id = %s", (patient_id,))
+
+        db_write(
+            "DELETE FROM Patient_Allergie WHERE patienten_id = %s",
+            (patient_id,)
+        )
+
         for aid in selected_id:
             db_write(
                 "INSERT INTO Patient_Allergie (patienten_id, allergie_id) VALUES (%s, %s)",
                 (patient_id, int(aid))
             )
+
         return redirect(url_for("patientenuebersicht", patient_id=patient_id))
-# GET: Alle Allergien laden (für Checkboxen-Liste)
-    allergies = db_read( "SELECT allergie_id, Name FROM Allergie ORDER BY Name", ())
-# GET: Bereits ausgewählte Allergien laden
+
+    # GET: Alle Allergien laden (für Checkboxen-Liste)
+    allergies = db_read(
+        "SELECT allergie_id, Name FROM Allergie ORDER BY Name",
+        ()
+    )
+
+    # GET: Bereits ausgewählte Allergien laden
     rows = db_read(
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
         (patient_id,)
     )
     selected_set = {r["allergie_id"] for r in rows}
+
     return render_template(
         "allergien.html",
-        title = "Allergien bearbeiten",
+        title="Allergien bearbeiten",
         patient=patient,
         allergies=allergies,
         selected_set=selected_set
     )
 
+
 # Ernährungspräferenzen
 @app.route("/patient/<int:patient_id>/ernaehrungspraeferenzen", methods=["GET", "POST"])
 @login_required
 def ernaehrungspraeferenzen(patient_id):
-    return render_template("ernaehrungspraeferenzen.html", patient_id=patient_id, title="Ernährungspräferenzen")
+    return render_template(
+        "ernaehrungspraeferenzen.html",
+        patient_id=patient_id,
+        title="Ernährungspräferenzen"
+    )
+
 
 # Medikamente
 @app.route("/patient/<int:patient_id>/medikamente", methods=["GET", "POST"])
 @login_required
 def medikamente(patient_id):
-    return render_template("medikamente.html", patient_id=patient_id, title="Medikamente")
+    return render_template(
+        "medikamente.html",
+        patient_id=patient_id,
+        title="Medikamente"
+    )
+
 
 # Gerichte
 @app.get("/patient/<int:patient_id>/gerichte")
 @login_required
 def gerichte(patient_id):
-    return render_template("gerichte.html", patient_id=patient_id, title="Gerichte")
+    return render_template(
+        "gerichte.html",
+        patient_id=patient_id,
+        title="Gerichte"
+    )
+
 
 # Ernährungsplan
 @app.get("/patient/<int:patient_id>/ernaehrungsplan")
 @login_required
 def ernaehrungsplan(patient_id):
-    return render_template("ernaehrungsplan.html", patient_id=patient_id, title="Ernährungsplan")
+    return render_template(
+        "ernaehrungsplan.html",
+        patient_id=patient_id,
+        title="Ernährungsplan"
+    )
