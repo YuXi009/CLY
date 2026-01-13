@@ -260,13 +260,13 @@ def ernaehrungspraeferenzen(patienten_id):
         selected_ids = request.form.getlist("praeferenz_id")
 
         db_write(
-            "DELETE FROM Patient_Ernaehrungspraeferenz WHERE patienten_id = %s",
+            "DELETE FROM Patient_Ernaehrungspraeferenzen WHERE patienten_id = %s",
             (patienten_id,)
         )
 
         for pid in selected_ids:
             db_write(
-                "INSERT INTO Patient_Ernaehrungspraeferenz (patienten_id, praeferenz_id) VALUES (%s, %s)",
+                "INSERT INTO Patient_Ernaehrungspraeferenzen (patienten_id, praeferenz_id) VALUES (%s, %s)",
                 (patienten_id, int(pid))
             )
 
@@ -274,13 +274,13 @@ def ernaehrungspraeferenzen(patienten_id):
 
     # GET: Alle Präferenzen laden
     preferences = db_read(
-        "SELECT praeferenz_id, Name FROM Ernaehrungspraeferenz ORDER BY Name",
+        "SELECT praeferenz_id, Name FROM Ernaehrungspraeferenzen ORDER BY Name",
         ()
     )
 
     # GET: Bereits ausgewählte Präferenzen laden
     rows = db_read(
-        "SELECT praeferenz_id FROM Patient_Ernaehrungspraeferenz WHERE patienten_id = %s",
+        "SELECT praeferenz_id FROM Patient_Ernaehrungspraeferenzen WHERE patienten_id = %s",
         (patienten_id,)
     )
     selected_set = {r["praeferenz_id"] for r in rows}
