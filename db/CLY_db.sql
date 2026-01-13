@@ -17,10 +17,11 @@ CREATE TABLE Patient (
 
 CREATE TABLE Allergie (
   allergie_id INT NOT NULL AUTO_INCREMENT,
-  Schweregrad INT,
-  Name VARCHAR(50),
-  Beschreibung MEDIUMTEXT
+  Name VARCHAR(100),
 );
+
+INSERT INTO Allergie (Name) VALUES
+("Nüsse"), ("Laktose"), ("Gluten"), ("Eier"), ("Fisch"), ("Soja");
 
 CREATE TABLE Medikamente (
   medikament_id INT NOT NULL AUTO_INCREMENT,
