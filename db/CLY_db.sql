@@ -101,7 +101,10 @@ VALUES
 CREATE TABLE Gericht (
   gericht_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(50),
-  meal_type_type ENUM('Frühstück', 'Mittagessen', 'Abendessen') NOT NULL,
+  Gericht_type VARCHAR(50) not NULL, 
+  Beschreibung VARCHAR(255),
+  Portionsgroesse VARCHAR(20),
+  Naehrwerte VARCHAR(255)
 );
 
 CREATE TABLE Gericht_Allergie (
@@ -134,10 +137,10 @@ CREATE TABLE Patient_Ernaehrungsplan (
 INSERT INTO Gericht
 (gericht_id, Name, Gericht_type, Beschreibung, Portionsgroesse, Naehrwerte)
 VALUES
-(1, 'Haferflocken mit Fruechten', 'Frühstück', 'Haferflocken mit Apfel und Banane', '300g', 'Ballaststoffe, Magnesium, Vitamin C'),
+(1, 'Haferflocken mit Fruechten', 'Fruehstueck', 'Haferflocken mit Apfel und Banane', '300g', 'Ballaststoffe, Magnesium, Vitamin C'),
 (2, 'Lachs mit Reis', 'Mittagessen', 'Geduensteter Lachs mit Reis und Gemuese', '450g', 'Omega-3, Protein, Vitamin D'),
 (3, 'Gemuesesuppe', 'Mittagessen', 'Leichte Suppe mit Karotten, Kartoffeln und Sellerie', '350ml', 'Vitamine, Mineralstoffe'),
-(4, 'Vollkornbrot mit Ei', 'Frühstück', 'Vollkornbrot mit gekochtem Ei', '250g', 'Protein, Eisen, Vitamin B12'),
+(4, 'Vollkornbrot mit Ei', 'Fruehstueck', 'Vollkornbrot mit gekochtem Ei', '250g', 'Protein, Eisen, Vitamin B12'),
 (5, 'Spinatnudeln', 'Abendessen', 'Pasta mit Spinatsauce', '400g', 'Eisen, Kohlenhydrate');
 
   

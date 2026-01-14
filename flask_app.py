@@ -481,8 +481,8 @@ def ernaehrungsplan(patienten_id):
     rows = db_read(
         f"""
         SELECT p.plan_datum, p.meal_type, g.Name AS gericht_name
-        FROM {T_PLAN} p
-        JOIN {T_GERICHTE} g ON g.gericht_id = p.gericht_id
+        FROM {Patient_Ernaehrungsplan} p
+        JOIN {Gericht} g ON g.gericht_id = p.gericht_id
         WHERE p.patienten_id = %s AND p.plan_datum = %s
         ORDER BY FIELD(p.meal_type,'Fruehstueck','Mittag','Abend')
         """,
