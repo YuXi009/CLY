@@ -384,7 +384,6 @@ def gerichte(patienten_id):
                 "INSERT INTO Patient_Ernaehrungsplan (patienten_id, plan_datum, meal_type, gericht_id) VALUES (%s, %s, %s, %s)",
                 (patienten_id, plan_datum, meal_type, int(gericht_id))
             )
-
         upsert("Fruehstueck", fr)
         upsert("Mittagessen", mi)
         upsert("Abendessen", ab)
