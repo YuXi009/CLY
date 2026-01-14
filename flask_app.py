@@ -349,7 +349,6 @@ def medikamente(patienten_id):
 
 
 # Gerichte auswählen 
-from datetime import date
 
 @app.route("/patient/<int:patienten_id>/gerichte", methods=["GET", "POST"])
 @login_required
