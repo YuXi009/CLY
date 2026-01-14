@@ -33,19 +33,19 @@ INSERT INTO Allergie
 VALUES
 (1,'Nüsse'), (2, 'Erdnüsse'), (3, 'Laktose'), (4, 'Gluten'), (5, 'Eier'), (6, 'Fisch'), (7, 'Meeresfrüchte'), (8, 'Soja'), (9, 'Sesam');
 
-CREATE TABLE Ernaerungspraeferenzen (
+CREATE TABLE Ernaehrungspraeferenzen (
   praeferenz_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(100)
 );
 
-CREATE TABLE Patienten_Ernaerungspraeferenzen (
+CREATE TABLE Patienten_Ernaehrungspraeferenzen (
   patienten_id INT NOT NULL,
   praeferenz_id INT NOT NULL,
   PRIMARY KEY (patienten_id, praeferenz_id),
   FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
-  FOREIGN KEY (praeferenz_id) REFERENCES Ernaerungspraeferenzen(praeferenz_id)
+  FOREIGN KEY (praeferenz_id) REFERENCES Ernaehrungspraeferenzen(praeferenz_id)
 );
-INSERT INTO Ernaerungspraeferenzen (Name) VALUES
+INSERT INTO Ernaehrungspraeferenzen (Name) VALUES
 ('Vegetarisch'),
 ('Vegan'),
 ('Glutenfrei'),
