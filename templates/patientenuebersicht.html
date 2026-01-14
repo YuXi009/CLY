@@ -42,4 +42,17 @@
     Ernährungsplan ansehen
   </a>
 </div>
+
+<div class="btn-group" role="group" style="margin-bottom: 15px;">
+  <a class="btn btn-default" href="{{ url_for('patient') }}">← Zur Patientenliste</a>
+
+  <form method="post"
+        action="{{ url_for('patient_deaktivieren', patienten_id=patient.patienten_id) }}"
+        style="display:inline;">
+    <button class="btn btn-danger"
+            onclick="return confirm('Willst du diese Person wirklich deaktivieren?');">
+      Patient:in deaktivieren
+    </button>
+  </form>
+</div>
 {% endblock %}

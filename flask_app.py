@@ -177,7 +177,7 @@ def add_patient():
 @login_required
 def patientenuebersicht(patienten_id):
     patient = db_read(
-        "SELECT * FROM Patient WHERE patienten_id = %s",
+        "SELECT * FROM Patient WHERE patienten_id = %s AND Aktivitaetsstatus = 1",
         (patienten_id,),
         single=True
     )
@@ -496,3 +496,12 @@ def ernaehrungsplan(patienten_id):
         plan_datum=plan_datum,
         rows=rows
     )
+# Spitalaustritt (Patient-Account deaktivieren)
+@app.post("/patient/<int:patienten_id>/deaktivieren")
+@login_required
+def patient_deaktivieren(patienten_id):
+    db_write(
+        "UPDATE Patient SET Aktivitaetsstatus = 0 WHERE patienten_id = %s",
+        (patienten_id,)
+    )
+    return redirect(url_for("patient"))  # zurück zur Patientenliste
