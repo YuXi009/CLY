@@ -24,9 +24,9 @@
 
   <div class="form-group">
     <label>Mittagessen</label>
-    <select class="form-control" name="gericht_mittag">
+    <select class="form-control" name="gericht_mittagessen">
       <option value="">-- nichts auswählen --</option>
-      {% for g in mittag %}
+      {% for g in mittagessen %}
         <option value="{{ g.gericht_id }}">{{ g.Name }}</option>
       {% endfor %}
     </select>
@@ -34,9 +34,9 @@
 
   <div class="form-group">
     <label>Abendessen</label>
-    <select class="form-control" name="gericht_abend">
+    <select class="form-control" name="gericht_abendessen">
       <option value="">-- nichts auswählen --</option>
-      {% for g in abend %}
+      {% for g in abendessen %}
         <option value="{{ g.gericht_id }}">{{ g.Name }}</option>
       {% endfor %}
     </select>
