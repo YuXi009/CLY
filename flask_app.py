@@ -371,8 +371,8 @@ def gerichte(patienten_id):
     # POST: Auswahl speichern
     if request.method == "POST":
         fr = request.form.get("gericht_fruehstueck")
-        mi = request.form.get("gericht_mittag")
-        ab = request.form.get("gericht_abend")
+        mi = request.form.get("gericht_mittagessen")
+        ab = request.form.get("gericht_abendessen")
 
         def upsert(meal_type, gericht_id):
             if not gericht_id:
@@ -388,8 +388,8 @@ def gerichte(patienten_id):
             )
 
         upsert("Fruehstueck", fr)
-        upsert("Mittag", mi)
-        upsert("Abend", ab)
+        upsert("Mittagessen", mi)
+        upsert("Abendessen", ab)
 
         return redirect(url_for("ernaehrungsplan", patienten_id=patienten_id, plan_datum=plan_datum))
 
@@ -410,7 +410,7 @@ def gerichte(patienten_id):
     pref_ids = [r["praeferenz_id"] for r in pat_prefs]
 
     # 1) Start: alle Gerichte
-    gerichte_basis = db_read("SELECT gericht_id, Name, meal_type FROM Gericht", ())
+    gerichte_basis = db_read("SELECT gericht_id, Name, Gericht_type FROM Gericht", ())
 
     # 2) Filtern in Python (MVP: simpel, verständlich)
     #    (Später kann man das in ein SQL-Query optimieren)
@@ -447,8 +447,8 @@ def gerichte(patienten_id):
 
     # Gruppieren
     fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
-    mittag = [g for g in filtered if g["meal_type"] == "Mittag"]
-    abend = [g for g in filtered if g["meal_type"] == "Abend"]
+    Mittag = [g for g in filtered if g["meal_type"] == "Mittagessen"]
+    Abend = [g for g in filtered if g["meal_type"] == "Abendessen"]
 
     return render_template(
         "gerichte.html",
@@ -456,8 +456,8 @@ def gerichte(patienten_id):
         patient=patient,
         plan_datum=plan_datum,
         fruehstueck=fruehstueck,
-        mittag=mittag,
-        abend=abend
+        Mittagessen=Mittagessen,
+        Abendessen=Abendessen
     )
 
 # Ernährungsplan anzeigen
@@ -481,10 +481,10 @@ def ernaehrungsplan(patienten_id):
     rows = db_read(
         f"""
         SELECT p.plan_datum, p.meal_type, g.Name AS gericht_name
-        FROM {Patient_Ernaehrungsplan} p
-        JOIN {Gericht} g ON g.gericht_id = p.gericht_id
+        FROM Patient_Ernaehrungsplan p
+        JOIN Gericht g ON g.gericht_id = p.gericht_id
         WHERE p.patienten_id = %s AND p.plan_datum = %s
-        ORDER BY FIELD(p.meal_type,'Fruehstueck','Mittag','Abend')
+        ORDER BY FIELD(p.meal_type,'Fruehstueck','Mittagessen','Abendessen')
         """,
         (patienten_id, plan_datum)
     )
