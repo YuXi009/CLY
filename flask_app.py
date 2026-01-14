@@ -364,7 +364,7 @@ def gerichte(patienten_id):
         return "Patient nicht gefunden", 404
 
     # Datum (für MVP: heute, oder aus Form)
-    plan_datum = request.form.get("plan_datum") if request.method == "POST" else None
+    plan_datum = request.form.get("plan_datum") if request.method == "POST" else request.args.get("plan_datum")
     if not plan_datum:
         plan_datum = date.today().isoformat()
 
@@ -377,7 +377,6 @@ def gerichte(patienten_id):
         def upsert(meal_type, gericht_id):
             if not gericht_id:
                 return
-            # vorhandenen Eintrag löschen (damit "überschreiben" möglich ist)
             db_write(
                 "DELETE FROM Patient_Ernaehrungsplan WHERE patienten_id=%s AND plan_datum=%s AND meal_type=%s",
                 (patienten_id, plan_datum, meal_type)
@@ -387,6 +386,7 @@ def gerichte(patienten_id):
                 (patienten_id, plan_datum, meal_type, int(gericht_id))
             )
 
+        # IMPORTANT: must match ENUM exactly
         upsert("Fruehstueck", fr)
         upsert("Mittagessen", mi)
         upsert("Abendessen", ab)
@@ -409,16 +409,15 @@ def gerichte(patienten_id):
     )
     pref_ids = [r["praeferenz_id"] for r in pat_prefs]
 
-    # 1) Start: alle Gerichte
+    # 1) Start: alle Gerichte (FIXED COLUMN NAME)
     gerichte_basis = db_read("SELECT gericht_id, Name, meal_type FROM Gericht", ())
 
-    # 2) Filtern in Python (MVP: simpel, verständlich)
-    #    (Später kann man das in ein SQL-Query optimieren)
+    # 2) Filtern
     filtered = []
     for g in gerichte_basis:
         gid = g["gericht_id"]
 
-        # Allergie-Ausschluss: Gericht darf keine der Patienten-Allergien enthalten
+        # Allergie-Ausschluss
         if allergie_ids:
             hits = db_read(
                 "SELECT 1 FROM Gericht_Allergie WHERE gericht_id=%s AND allergie_id IN ({}) LIMIT 1"
@@ -445,7 +444,7 @@ def gerichte(patienten_id):
 
         filtered.append(g)
 
-    # Gruppieren
+    # Gruppieren (match ENUM values)
     fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
     mittagessen = [g for g in filtered if g["meal_type"] == "Mittagessen"]
     abendessen = [g for g in filtered if g["meal_type"] == "Abendessen"]
@@ -459,6 +458,7 @@ def gerichte(patienten_id):
         mittagessen=mittagessen,
         abendessen=abendessen
     )
+
 
 # Ernährungsplan anzeigen
 @app.get("/patient/<int:patienten_id>/ernaehrungsplan")
