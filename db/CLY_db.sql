@@ -117,7 +117,7 @@ CREATE TABLE Gericht_Ernaehrungspraeferenzen (
   praeferenz_id INT NOT NULL,
   PRIMARY KEY (gericht_id, praeferenz_id),
   FOREIGN KEY (gericht_id) REFERENCES Gericht(gericht_id),
-  FOREIGN KEY (praeferenz_id) REFERENCES Ernaerungspraeferenzen(praeferenz_id)
+  FOREIGN KEY (praeferenz_id) REFERENCES Ernaehrungspraeferenzen(praeferenz_id)
 );
 
 CREATE TABLE Patient_Ernaehrungsplan (
