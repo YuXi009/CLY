@@ -348,23 +348,151 @@ def medikamente(patienten_id):
 
 
 
-# Gerichte
-@app.get("/patient/<int:patienten_id>/gerichte")
+# Gerichte auswählen 
+from datetime import date
+
+@app.route("/patient/<int:patienten_id>/gerichte", methods=["GET", "POST"])
 @login_required
 def gerichte(patienten_id):
+    # Patient prüfen
+    patient = db_read(
+        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
+        (patienten_id,),
+        single=True
+    )
+    if not patient:
+        return "Patient nicht gefunden", 404
+
+    # Datum (für MVP: heute, oder aus Form)
+    plan_datum = request.form.get("plan_datum") if request.method == "POST" else None
+    if not plan_datum:
+        plan_datum = date.today().isoformat()
+
+    # POST: Auswahl speichern
+    if request.method == "POST":
+        fr = request.form.get("gericht_fruehstueck")
+        mi = request.form.get("gericht_mittag")
+        ab = request.form.get("gericht_abend")
+
+        def upsert(meal_type, gericht_id):
+            if not gericht_id:
+                return
+            # vorhandenen Eintrag löschen (damit "überschreiben" möglich ist)
+            db_write(
+                "DELETE FROM Patient_Ernaehrungsplan WHERE patienten_id=%s AND plan_datum=%s AND meal_type=%s",
+                (patienten_id, plan_datum, meal_type)
+            )
+            db_write(
+                "INSERT INTO Patient_Ernaehrungsplan (patienten_id, plan_datum, meal_type, gericht_id) VALUES (%s, %s, %s, %s)",
+                (patienten_id, plan_datum, meal_type, int(gericht_id))
+            )
+
+        upsert("Fruehstueck", fr)
+        upsert("Mittag", mi)
+        upsert("Abend", ab)
+
+        return redirect(url_for("ernaehrungsplan", patienten_id=patienten_id, plan_datum=plan_datum))
+
+    # --- GET: Filterdaten laden ---
+
+    # Patient-Allergien
+    pat_allergien = db_read(
+        "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
+        (patienten_id,)
+    )
+    allergie_ids = [r["allergie_id"] for r in pat_allergien]
+
+    # Patient-Präferenzen
+    pat_prefs = db_read(
+        "SELECT praeferenz_id FROM Patient_Ernaehrungspraeferenzen WHERE patienten_id = %s",
+        (patienten_id,)
+    )
+    pref_ids = [r["praeferenz_id"] for r in pat_prefs]
+
+    # 1) Start: alle Gerichte
+    gerichte_basis = db_read("SELECT gericht_id, Name, meal_type FROM Gericht", ())
+
+    # 2) Filtern in Python (MVP: simpel, verständlich)
+    #    (Später kann man das in ein SQL-Query optimieren)
+    filtered = []
+    for g in gerichte_basis:
+        gid = g["gericht_id"]
+
+        # Allergie-Ausschluss: Gericht darf keine der Patienten-Allergien enthalten
+        if allergie_ids:
+            hits = db_read(
+                "SELECT 1 FROM Gericht_Allergie WHERE gericht_id=%s AND allergie_id IN ({}) LIMIT 1"
+                .format(",".join(["%s"] * len(allergie_ids))),
+                tuple([gid] + allergie_ids),
+                single=True
+            )
+            if hits:
+                continue
+
+        # Präferenz-Regel: Gericht muss ALLE Präferenzen erfüllen
+        ok = True
+        for pid in pref_ids:
+            has = db_read(
+                "SELECT 1 FROM Gericht_Praeferenz WHERE gericht_id=%s AND praeferenz_id=%s LIMIT 1",
+                (gid, pid),
+                single=True
+            )
+            if not has:
+                ok = False
+                break
+        if not ok:
+            continue
+
+        filtered.append(g)
+
+    # Gruppieren
+    fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
+    mittag = [g for g in filtered if g["meal_type"] == "Mittag"]
+    abend = [g for g in filtered if g["meal_type"] == "Abend"]
+
     return render_template(
         "gerichte.html",
-        patienten_id=patienten_id,
-        title="Gerichte"
+        title="Gerichte auswählen",
+        patient=patient,
+        plan_datum=plan_datum,
+        fruehstueck=fruehstueck,
+        mittag=mittag,
+        abend=abend
     )
 
-
-# Ernährungsplan
+# Ernährungsplan anzeigen
 @app.get("/patient/<int:patienten_id>/ernaehrungsplan")
 @login_required
 def ernaehrungsplan(patienten_id):
+    from datetime import date
+
+    plan_datum = request.args.get("plan_datum")
+    if not plan_datum:
+        plan_datum = date.today().isoformat()
+
+    patient = db_read(
+        "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
+        (patienten_id,),
+        single=True
+    )
+    if not patient:
+        return "Patient nicht gefunden", 404
+
+    rows = db_read(
+        f"""
+        SELECT p.plan_datum, p.meal_type, g.Name AS gericht_name
+        FROM {T_PLAN} p
+        JOIN {T_GERICHTE} g ON g.gericht_id = p.gericht_id
+        WHERE p.patienten_id = %s AND p.plan_datum = %s
+        ORDER BY FIELD(p.meal_type,'Fruehstueck','Mittag','Abend')
+        """,
+        (patienten_id, plan_datum)
+    )
+
     return render_template(
         "ernaehrungsplan.html",
-        patienten_id=patienten_id,
-        title="Ernährungsplan"
+        title="Ernährungsplan",
+        patient=patient,
+        plan_datum=plan_datum,
+        rows=rows
     )

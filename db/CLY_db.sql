@@ -20,7 +20,7 @@ CREATE TABLE Allergie (
   Name VARCHAR(100)
 );
 
-CREATE TABLE IF NOT EXISTS Patient_Allergie (
+CREATE TABLE Patient_Allergie (
   patienten_id INT NOT NULL,
   allergie_id INT NOT NULL,
   PRIMARY KEY (patienten_id, allergie_id),
@@ -38,7 +38,7 @@ CREATE TABLE Ernaehrungspraeferenzen (
   Name VARCHAR(100)
 );
 
-CREATE TABLE Patienten_Ernaehrungspraeferenzen (
+CREATE TABLE Patient_Ernaehrungspraeferenzen (
   patienten_id INT NOT NULL,
   praeferenz_id INT NOT NULL,
   PRIMARY KEY (patienten_id, praeferenz_id),
@@ -101,16 +101,43 @@ VALUES
 CREATE TABLE Gericht (
   gericht_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(50),
-  Beschreibung MEDIUMTEXT,
-  Portionsgroesse VARCHAR(50),
-  Naehrwerte VARCHAR(50)
+  meal_type_type ENUM('Frühstück', 'Mittagessen', 'Abendessen') NOT NULL,
+);
+
+CREATE TABLE Gericht_Allergie (
+  gericht_id INT NOT NULL,
+  allergie_id INT NOT NULL,
+  PRIMARY KEY (gericht_id, allergie_id),
+  FOREIGN KEY (gericht_id) REFERENCES Gericht(gericht_id),
+  FOREIGN KEY (allergie_id) REFERENCES Allergie(allergie_id) 
+);
+
+CREATE TABLE Gericht_Ernaehrungspraeferenzen (
+  gericht_id INT NOT NULL,
+  praeferenz_id INT NOT NULL,
+  PRIMARY KEY (gericht_id, praeferenz_id),
+  FOREIGN KEY (gericht_id) REFERENCES Gericht(gericht_id),
+  FOREIGN KEY (praeferenz_id) REFERENCES Ernaerungspraeferenzen(praeferenz_id)
+);
+
+CREATE TABLE Patient_Ernaehrungsplan (
+  plan_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  patienten_id INT NOT NULL,
+  plan_datum DATE NOT NULL,
+  meal_type ENUM('Frühstück','Mittagessen','Abendessen') NOT NULL,
+  gericht_id INT NOT NULL,
+  UNIQUE(patienten_id, plan_datum, meal_type),
+  FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
+  FOREIGN KEY (gericht_id) REFERENCES Gericht(gericht_id)
 );
 
 INSERT INTO Gericht
-(gericht_id, Name, Beschreibung, Portionsgroesse, Naehrwerte)
+(gericht_id, Name, Gericht_type, Beschreibung, Portionsgroesse, Naehrwerte)
 VALUES
-(1, 'Haferflocken mit Fruechten', 'Haferflocken mit Apfel und Banane', '300g', 'Ballaststoffe, Magnesium, Vitamin C'),
-(2, 'Lachs mit Reis', 'Geduensteter Lachs mit Reis und Gemuese', '450g', 'Omega-3, Protein, Vitamin D'),
-(3, 'Gemuesesuppe', 'Leichte Suppe mit Karotten, Kartoffeln und Sellerie', '350ml', 'Vitamine, Mineralstoffe'),
-(4, 'Vollkornbrot mit Ei', 'Vollkornbrot mit gekochtem Ei', '250g', 'Protein, Eisen, Vitamin B12'),
-(5, 'Spinatnudeln', 'Pasta mit Spinatsauce', '400g', 'Eisen, Kohlenhydrate');
+(1, 'Haferflocken mit Fruechten', 'Frühstück', 'Haferflocken mit Apfel und Banane', '300g', 'Ballaststoffe, Magnesium, Vitamin C'),
+(2, 'Lachs mit Reis', 'Mittagessen', 'Geduensteter Lachs mit Reis und Gemuese', '450g', 'Omega-3, Protein, Vitamin D'),
+(3, 'Gemuesesuppe', 'Mittagessen', 'Leichte Suppe mit Karotten, Kartoffeln und Sellerie', '350ml', 'Vitamine, Mineralstoffe'),
+(4, 'Vollkornbrot mit Ei', 'Frühstück', 'Vollkornbrot mit gekochtem Ei', '250g', 'Protein, Eisen, Vitamin B12'),
+(5, 'Spinatnudeln', 'Abendessen', 'Pasta mit Spinatsauce', '400g', 'Eisen, Kohlenhydrate');
+
+  

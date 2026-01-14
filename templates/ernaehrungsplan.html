@@ -1,7 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2>{{ title }}</h2>
-<p>Patient ID: {{ patienten_id }}</p>
-<p><em>Hier kommen Checkboxen rein (kommt als nächster Schritt).</em></p>
-<a class="btn btn-default" href="{{ url_for('patientenuebersicht', patienten_id=patienten_id) }}">← Zurück</a>
+<p><strong>Patient:</strong> {{ patient.Name }} (ID {{ patient.patienten_id }})</p>
+<p><strong>Datum:</strong> {{ plan_datum }}</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Mahlzeit</th>
+      <th>Gericht</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in rows %}
+      <tr>
+        <td>{{ r.meal_type }}</td>
+        <td>{{ r.gericht_name }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if rows|length == 0 %}
+  <p><em>Noch kein Plan für dieses Datum gespeichert.</em></p>
+{% endif %}
+
+<a class="btn btn-default" href="{{ url_for('gerichte', patienten_id=patient.patienten_id) }}">Gerichte auswählen</a>
+<a class="btn btn-default" href="{{ url_for('patientenuebersicht', patient_id=patient.patienten_id) }}">Zurück</a>
+
 {% endblock %}
