@@ -230,8 +230,7 @@ def allergien(patienten_id):
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
         (patienten_id,)
     )
-
-        selected_set = {int(r["allergie_id"]) for r in rows}
+        selected_set = {r["allergie_id"] for r in rows}
 
     return render_template(
         "allergien.html",
@@ -284,7 +283,7 @@ def ernaehrungspraeferenzen(patienten_id):
         (patienten_id,)
     )
 
-    selected_set = {int(r["praeferenz_id"]) for r in rows}
+    selected_set = {r["praeferenz_id"] for r in rows}
 
     return render_template(
         "ernaehrungspraeferenzen.html",
@@ -337,8 +336,7 @@ def medikamente(patienten_id):
         "SELECT medikament_id FROM Patient_Medikament WHERE patienten_id = %s",
         (patienten_id,)
     )
-    selected_set = {int(r["medikament_id"]) for r in rows}
-
+    selected_set = {r["medikament_id"] for r in rows}
     return render_template(
         "medikamente.html",
         title="Medikamente bearbeiten",
