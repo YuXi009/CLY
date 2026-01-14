@@ -385,9 +385,9 @@ def gerichte(patienten_id):
                 (patienten_id, plan_datum, meal_type, int(gericht_id))
             )
 
-        upsert("Fruehstueck", fr)
-        upsert("Mittagessen", mi)
-        upsert("Abendessen", ab)
+        upsert("fruehstueck", fr)
+        upsert("mittagessen", mi)
+        upsert("abendessen", ab)
 
         return redirect(url_for("ernaehrungsplan", patienten_id=patienten_id, plan_datum=plan_datum))
 
@@ -444,9 +444,9 @@ def gerichte(patienten_id):
         filtered.append(g)
 
     # Gruppieren
-    fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
-    mittagessen = [g for g in filtered if g["meal_type"] == "Mittagessen"]
-    abendessen = [g for g in filtered if g["meal_type"] == "Abendessen"]
+    fruehstueck = [g for g in filtered if g["meal_type"] == "fruehstueck"]
+    mittagessen = [g for g in filtered if g["meal_type"] == "mittagessen"]
+    abendessen = [g for g in filtered if g["meal_type"] == "abendessen"]
 
     return render_template(
         "gerichte.html",
@@ -482,7 +482,7 @@ def ernaehrungsplan(patienten_id):
         FROM Patient_Ernaehrungsplan p
         JOIN Gericht g ON g.gericht_id = p.gericht_id
         WHERE p.patienten_id = %s AND p.plan_datum = %s
-        ORDER BY FIELD(p.meal_type,'Fruehstueck','Mittagessen','Abendessen')
+        ORDER BY FIELD(p.meal_type,'fruehstueck','mittagessen','abendessen')
         """,
         (patienten_id, plan_datum)
     )
