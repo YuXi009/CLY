@@ -410,7 +410,7 @@ def gerichte(patienten_id):
     pref_ids = [r["praeferenz_id"] for r in pat_prefs]
 
     # 1) Start: alle Gerichte
-    gerichte_basis = db_read("SELECT gericht_id, Name, meal_type FROM Gericht", ())
+    gerichte_basis = db_read("SELECT gericht_id, Name, Gericht_type FROM Gericht", ())
 
     # 2) Filtern in Python (MVP: simpel, verständlich)
     #    (Später kann man das in ein SQL-Query optimieren)
@@ -447,8 +447,8 @@ def gerichte(patienten_id):
 
     # Gruppieren
     fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
-    mittag = [g for g in filtered if g["meal_type"] == "Mittagessen"]
-    abend = [g for g in filtered if g["meal_type"] == "Abendessen"]
+    Mittag = [g for g in filtered if g["meal_type"] == "Mittagessen"]
+    Abend = [g for g in filtered if g["meal_type"] == "Abendessen"]
 
     return render_template(
         "gerichte.html",
@@ -456,8 +456,8 @@ def gerichte(patienten_id):
         patient=patient,
         plan_datum=plan_datum,
         fruehstueck=fruehstueck,
-        mittagessen=mittag,
-        abendessen=abend
+        Mittagessen=Mittagessen,
+        Abendessen=Abendessen
     )
 
 # Ernährungsplan anzeigen
