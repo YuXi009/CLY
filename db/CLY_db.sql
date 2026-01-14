@@ -101,7 +101,7 @@ VALUES
 CREATE TABLE Gericht (
   gericht_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(50),
-  Gericht_type VARCHAR(50) NOT NULL, 
+  Gericht_type ENUM('Fruehstueck','Mittagessen','Abendessen') NOT NULL,
   Beschreibung VARCHAR(255),
   Portionsgroesse VARCHAR(20),
   Naehrwerte VARCHAR(255)
@@ -127,7 +127,7 @@ CREATE TABLE Patient_Ernaehrungsplan (
   plan_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   patienten_id INT NOT NULL,
   plan_datum DATE NOT NULL,
-  meal_type VARCHAR(50) NOT NULL,
+  meal_type ENUM('Fruehstueck','Mittagessen','Abendessen') NOT NULL,
   gericht_id INT NOT NULL,
   UNIQUE(patienten_id, plan_datum, meal_type),
   FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
