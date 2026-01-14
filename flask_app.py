@@ -230,6 +230,7 @@ def allergien(patienten_id):
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
         (patienten_id,)
     )
+
     selected_set = {r["allergie_id"] for r in rows}
 
     return render_template(
@@ -336,6 +337,7 @@ def medikamente(patienten_id):
         (patienten_id,)
     )
     selected_set = {r["medikament_id"] for r in rows}
+
     return render_template(
         "medikamente.html",
         title="Medikamente bearbeiten",
@@ -384,6 +386,7 @@ def gerichte(patienten_id):
                 "INSERT INTO Patient_Ernaehrungsplan (patienten_id, plan_datum, meal_type, gericht_id) VALUES (%s, %s, %s, %s)",
                 (patienten_id, plan_datum, meal_type, int(gericht_id))
             )
+
         upsert("Fruehstueck", fr)
         upsert("Mittagessen", mi)
         upsert("Abendessen", ab)
@@ -444,8 +447,8 @@ def gerichte(patienten_id):
 
     # Gruppieren
     fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
-    mittagessen = [g for g in filtered if g["meal_type"] == "Mittagessen"]
-    abendessen = [g for g in filtered if g["meal_type"] == "Abendessen"]
+    Mittag = [g for g in filtered if g["meal_type"] == "Mittagessen"]
+    Abend = [g for g in filtered if g["meal_type"] == "Abendessen"]
 
     return render_template(
         "gerichte.html",
@@ -453,8 +456,8 @@ def gerichte(patienten_id):
         patient=patient,
         plan_datum=plan_datum,
         fruehstueck=fruehstueck,
-        mittagessen=mittagessen,
-        abendessen=abendessen
+        Mittagessen=Mittagessen,
+        Abendessen=Abendessen
     )
 
 # Ernährungsplan anzeigen
