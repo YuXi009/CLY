@@ -410,7 +410,7 @@ def gerichte(patienten_id):
     pref_ids = [r["praeferenz_id"] for r in pat_prefs]
 
     # 1) Start: alle Gerichte
-    gerichte_basis = db_read("SELECT gericht_id, Name, Gericht_type FROM Gericht", ())
+    gerichte_basis = db_read("SELECT gericht_id, Name, meal_type FROM Gericht", ())
 
     # 2) Filtern in Python (MVP: simpel, verständlich)
     #    (Später kann man das in ein SQL-Query optimieren)

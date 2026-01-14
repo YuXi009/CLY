@@ -101,7 +101,7 @@ VALUES
 CREATE TABLE Gericht (
   gericht_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(50),
-  Gericht_type ENUM('Fruehstueck','Mittagessen','Abendessen') NOT NULL,
+  meal_type ENUM('Fruehstueck','Mittagessen','Abendessen') NOT NULL,
   Beschreibung VARCHAR(255),
   Portionsgroesse VARCHAR(20),
   Naehrwerte VARCHAR(255)
@@ -135,7 +135,7 @@ CREATE TABLE Patient_Ernaehrungsplan (
 );
 
 INSERT INTO Gericht
-(gericht_id, Name, Gericht_type, Beschreibung, Portionsgroesse, Naehrwerte)
+(gericht_id, Name, meal_type, Beschreibung, Portionsgroesse, Naehrwerte)
 VALUES
 (1, 'Haferflocken mit Fruechten', 'Fruehstueck', 'Haferflocken mit Apfel und Banane', '300g', 'Ballaststoffe, Magnesium, Vitamin C'),
 (2, 'Lachs mit Reis', 'Mittagessen', 'Geduensteter Lachs mit Reis und Gemuese', '450g', 'Omega-3, Protein, Vitamin D'),
