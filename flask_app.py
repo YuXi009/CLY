@@ -349,7 +349,7 @@ def medikamente(patienten_id):
 
 
 # Gerichte auswählen 
-
+from datetime import date
 @app.route("/patient/<int:patienten_id>/gerichte", methods=["GET", "POST"])
 @login_required
 def gerichte(patienten_id):
@@ -384,6 +384,8 @@ def gerichte(patienten_id):
                 "INSERT INTO Patient_Ernaehrungsplan (patienten_id, plan_datum, meal_type, gericht_id) VALUES (%s, %s, %s, %s)",
                 (patienten_id, plan_datum, meal_type, int(gericht_id))
             )
+)
+
 
         # IMPORTANT: must match ENUM exactly
         upsert("Fruehstueck", fr)
