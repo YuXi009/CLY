@@ -433,7 +433,7 @@ def gerichte(patienten_id):
         ok = True
         for pid in pref_ids:
             has = db_read(
-                "SELECT 1 FROM Gericht_Praeferenz WHERE gericht_id=%s AND praeferenz_id=%s LIMIT 1",
+                "SELECT 1 FROM Gericht_Ernaehrungspraeferenzen WHERE gericht_id=%s AND praeferenz_id=%s LIMIT 1",
                 (gid, pid),
                 single=True
             )
