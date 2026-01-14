@@ -384,8 +384,6 @@ def gerichte(patienten_id):
                 "INSERT INTO Patient_Ernaehrungsplan (patienten_id, plan_datum, meal_type, gericht_id) VALUES (%s, %s, %s, %s)",
                 (patienten_id, plan_datum, meal_type, int(gericht_id))
             )
-)
-
 
         # IMPORTANT: must match ENUM exactly
         upsert("Fruehstueck", fr)
@@ -482,7 +480,7 @@ def ernaehrungsplan(patienten_id):
     rows = db_read(
         f"""
         SELECT p.plan_datum, p.meal_type, g.Name AS gericht_name
-        FROM Patient_Ernaehrungsplan p
+        FROM atient_Ernaehrungsplan p
         JOIN Gericht g ON g.gericht_id = p.gericht_id
         WHERE p.patienten_id = %s AND p.plan_datum = %s
         ORDER BY FIELD(p.meal_type,'Fruehstueck','Mittagessen','Abendessen')
