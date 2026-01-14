@@ -447,8 +447,8 @@ def gerichte(patienten_id):
 
     # Gruppieren
     fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
-    Mittag = [g for g in filtered if g["meal_type"] == "Mittagessen"]
-    Abend = [g for g in filtered if g["meal_type"] == "Abendessen"]
+    mittag = [g for g in filtered if g["meal_type"] == "Mittagessen"]
+    abend = [g for g in filtered if g["meal_type"] == "Abendessen"]
 
     return render_template(
         "gerichte.html",
@@ -456,8 +456,8 @@ def gerichte(patienten_id):
         patient=patient,
         plan_datum=plan_datum,
         fruehstueck=fruehstueck,
-        Mittagessen=Mittagessen,
-        Abendessen=Abendessen
+        mittagessen=mittag,
+        abendessen=abend
     )
 
 # Ernährungsplan anzeigen
