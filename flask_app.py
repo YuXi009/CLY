@@ -274,7 +274,7 @@ def ernaehrungspraeferenzen(patienten_id):
 
     # GET: Alle Präferenzen laden
     preferences = db_read(
-        "SELECT praeferenz_id, Name FROM Ernaehrungspraeferenzen ORDER BY Name",
+        "SELECT praeferenz_id, Name FROM Ernaerungspraeferenzen ORDER BY Name",
         ()
     )
 
