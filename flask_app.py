@@ -230,7 +230,7 @@ def allergien(patienten_id):
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
         (patienten_id,)
     )
-        selected_set = {r["allergie_id"] for r in rows}
+    selected_set = {r["allergie_id"] for r in rows}
 
     return render_template(
         "allergien.html",
@@ -282,7 +282,6 @@ def ernaehrungspraeferenzen(patienten_id):
         "SELECT praeferenz_id FROM Patient_Ernaehrungspraeferenzen WHERE patienten_id = %s",
         (patienten_id,)
     )
-
     selected_set = {r["praeferenz_id"] for r in rows}
 
     return render_template(
@@ -446,8 +445,8 @@ def gerichte(patienten_id):
 
     # Gruppieren
     fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
-    mittag = [g for g in filtered if g["meal_type"] == "Mittagessen"]
-    abend = [g for g in filtered if g["meal_type"] == "Abendessen"]
+    mittagessen = [g for g in filtered if g["meal_type"] == "Mittagessen"]
+    abendessen = [g for g in filtered if g["meal_type"] == "Abendessen"]
 
     return render_template(
         "gerichte.html",
