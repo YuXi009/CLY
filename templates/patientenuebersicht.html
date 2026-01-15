@@ -7,12 +7,17 @@
   <div class="panel-heading">
     <strong>{{ patient.Name }}</strong> (ID: {{ patient.patienten_id }})
   </div>
-  <div class="panel-body">
+
+<div class = "row">
+  <div class="col-md-6">
     <p><strong>Name:</strong> {{ patient.Name }}</p>
     <p><strong>Geburtsdatum:</strong> {{ patient.Geburtsdatum }}</p>
     <p><strong>Geschlecht:</strong> {{ patient.Geschlecht }}</p>
     <p><strong>Gewicht:</strong> {{ patient.Gewicht }} kg</p>
     <p><strong>Versicherungsnummer:</strong> {{ patient.Versicherungsnummer }}</p>
+  </div>
+  
+  <div class="col-md-6">
     <p><strong>Allergien:</strong>
       {% if allergien and allergien|length > 0 %}
         {{ allergien | map(attribute="Name") | join(", ") }}
