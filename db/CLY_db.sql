@@ -80,23 +80,6 @@ VALUES
 (5, 'Eisenpraeparat', 'Eisensulfat', 100.00, 'Zur Behandlung von Eisenmangel; nicht mit Milch einnehmen');
 
 
-CREATE TABLE Lebensmittel (
-  lebensmittel_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  Name VARCHAR(50),
-  Naehrwerte VARCHAR(50)
-);
-
-INSERT INTO Lebensmittel
-(lebensmittel_id, Name, Naehrwerte)
-VALUES
-(1, 'Apfel', 'Ballaststoffe, Vitamin C'),
-(2, 'Banane', 'Kalium, Magnesium'),
-(3, 'Milch', 'Kalzium, Protein'),
-(4, 'Vollkornbrot', 'Ballaststoffe, Eisen'),
-(5, 'Lachs', 'Omega-3-Fettsaeuren, Vitamin D'),
-(6, 'Spinat', 'Eisen, Magnesium'),
-(7, 'Reis', 'Kohlenhydrate'),
-(8, 'Ei', 'Protein, Vitamin B12');
 
 CREATE TABLE Gericht (
   gericht_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
