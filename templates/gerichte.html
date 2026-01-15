@@ -5,46 +5,93 @@
 <p><strong>Patient:</strong> {{ patient.Name }} (ID {{ patient.patienten_id }})</p>
 
 <form method="post">
-  <div class="form-group">
-    <label>Datum</label>
-    <input class="form-control" type="date" name="plan_datum" value="{{ plan_datum }}">
-  </div>
+  <input type="hidden" name="plan_datum" value="{{ plan_datum }}">
+
+  <p><strong>Plan-Datum:</strong> {{ plan_datum }}</p>
+  <hr>
+
+  <!-- Frühstück -->
+  <h3>Frühstück</h3>
+  {% if fruehstueck|length == 0 %}
+    <p><em>Keine passenden Frühstücks-Gerichte gefunden.</em></p>
+  {% else %}
+    <div class="list-group">
+      {% for g in fruehstueck %}
+        <label class="list-group-item">
+          <input type="checkbox"
+                 name="gericht_fruehstueck"
+                 value="{{ g.gericht_id }}"
+                 class="meal-choice"
+                 data-meal="fruehstueck">
+          {{ g.Name }}
+        </label>
+      {% endfor %}
+    </div>
+  {% endif %}
 
   <hr>
 
-  <div class="form-group">
-    <label>Frühstück</label>
-    <select class="form-control" name="gericht_fruehstueck">
-      <option value="">-- nichts auswählen --</option>
-      {% for g in fruehstueck %}
-        <option value="{{ g.gericht_id }}">{{ g.Name }}</option>
-      {% endfor %}
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label>Mittagessen</label>
-    <select class="form-control" name="gericht_mittagessen">
-      <option value="">-- nichts auswählen --</option>
+  <!-- Mittagessen -->
+  <h3>Mittagessen</h3>
+  {% if mittagessen|length == 0 %}
+    <p><em>Keine passenden Mittags-Gerichte gefunden.</em></p>
+  {% else %}
+    <div class="list-group">
       {% for g in mittagessen %}
-        <option value="{{ g.gericht_id }}">{{ g.Name }}</option>
+        <label class="list-group-item">
+          <input type="checkbox"
+                 name="gericht_mittagessen"
+                 value="{{ g.gericht_id }}"
+                 class="meal-choice"
+                 data-meal="mittagessen">
+          {{ g.Name }}
+        </label>
       {% endfor %}
-    </select>
-  </div>
+    </div>
+  {% endif %}
 
-  <div class="form-group">
-    <label>Abendessen</label>
-    <select class="form-control" name="gericht_abendessen">
-      <option value="">-- nichts auswählen --</option>
+  <hr>
+
+  <!-- Abendessen -->
+  <h3>Abendessen</h3>
+  {% if abendessen|length == 0 %}
+    <p><em>Keine passenden Abend-Gerichte gefunden.</em></p>
+  {% else %}
+    <div class="list-group">
       {% for g in abendessen %}
-        <option value="{{ g.gericht_id }}">{{ g.Name }}</option>
+        <label class="list-group-item">
+          <input type="checkbox"
+                 name="gericht_abendessen"
+                 value="{{ g.gericht_id }}"
+                 class="meal-choice"
+                 data-meal="abendessen">
+          {{ g.Name }}
+        </label>
       {% endfor %}
-    </select>
-  </div>
+    </div>
+  {% endif %}
+
+  <hr>
 
   <button class="btn btn-primary">Speichern</button>
-
-  <a class="btn btn-default" href="{{ url_for('patientenuebersicht', patienten_id=patient.patienten_id) }}">Zurück</a>
+  <a class="btn btn-default"
+     href="{{ url_for('patientenuebersicht', patienten_id=patient.patienten_id) }}">
+    Zurück
+  </a>
 </form>
+
+<script>
+  // "Checkbox-Look", aber pro Mahlzeit nur 1 auswählbar
+  document.querySelectorAll('.meal-choice').forEach(cb => {
+    cb.addEventListener('change', function () {
+      const meal = this.dataset.meal;
+      if (this.checked) {
+        document.querySelectorAll('.meal-choice[data-meal="' + meal + '"]').forEach(other => {
+          if (other !== this) other.checked = false;
+        });
+      }
+    });
+  });
+</script>
 
 {% endblock %}
