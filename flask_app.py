@@ -181,14 +181,52 @@ def patientenuebersicht(patienten_id):
         (patienten_id,),
         single=True
     )
-
     if not patient:
         return "Patient nicht gefunden", 404
+
+    # Allergien des Patienten
+    allergien = db_read(
+        """
+        SELECT a.allergie_id, a.Name
+        FROM Patient_Allergie pa
+        JOIN Allergie a ON a.allergie_id = pa.allergie_id
+        WHERE pa.patienten_id = %s
+        ORDER BY a.Name
+        """,
+        (patienten_id,)
+    )
+
+    # Ernährungspräferenzen des Patienten
+    prefs = db_read(
+        """
+        SELECT e.praeferenz_id, e.Name
+        FROM Patient_Ernaehrungspraeferenzen pe
+        JOIN Ernaehrungspraeferenzen e ON e.praeferenz_id = pe.praeferenz_id
+        WHERE pe.patienten_id = %s
+        ORDER BY e.Name
+        """,
+        (patienten_id,)
+    )
+
+    # Medikamente des Patienten
+    meds = db_read(
+        """
+        SELECT m.medikament_id, m.Name
+        FROM Patient_Medikament pm
+        JOIN Medikament m ON m.medikament_id = pm.medikament_id
+        WHERE pm.patienten_id = %s
+        ORDER BY m.Name
+        """,
+        (patienten_id,)
+    )
 
     return render_template(
         "patientenuebersicht.html",
         title="Patientenübersicht",
-        patient=patient
+        patient=patient,
+        allergien=allergien,
+        prefs=prefs,
+        meds=meds
     )
 
 

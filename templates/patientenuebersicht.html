@@ -13,6 +13,29 @@
     <p><strong>Geschlecht:</strong> {{ patient.Geschlecht }}</p>
     <p><strong>Gewicht:</strong> {{ patient.Gewicht }} kg</p>
     <p><strong>Versicherungsnummer:</strong> {{ patient.Versicherungsnummer }}</p>
+    <p><strong>Allergien:</strong>
+      {% if allergien and allergien|length > 0 %}
+        {{ allergien | map(attribute="Name") | join(", ") }}
+      {% else %}
+        Keine
+      {% endif %}
+    </p>
+
+    <p><strong>Ernährungspräferenzen:</strong>
+      {% if prefs and prefs|length > 0 %}
+       {{ prefs | map(attribute="Name") | join(", ") }}
+     {% else %}
+       Keine
+     {% endif %}
+    </p>
+
+    <p><strong>Medikamente:</strong>
+      {% if meds and meds|length > 0 %}
+        {{ meds | map(attribute="Name") | join(", ") }}
+      {% else %}
+        Keine
+      {% endif %}
+    </p>
   </div>
 </div>
 
