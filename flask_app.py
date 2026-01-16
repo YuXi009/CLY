@@ -150,7 +150,7 @@ def patient():
     return render_template("patient.html", title="Patientenlist", patients = patients)
 
 
-#UseCase 1 Patient erfassen
+# Patient erfassen
 @app.route("/add_patient", methods=["GET", "POST"])
 @login_required
 def add_patient():
@@ -172,7 +172,7 @@ def add_patient():
     return render_template("add_patient.html")
 
 
-# Use Case 4 Patientenübersicht anzeigen
+# Patientenübersicht anzeigen
 @app.get("/patient/<int:patienten_id>")
 @login_required
 def patientenuebersicht(patienten_id):
@@ -186,7 +186,7 @@ def patientenuebersicht(patienten_id):
 
     # Allergien des Patienten
     allergien = db_read(
-        """
+        """ 
         SELECT a.allergie_id, a.Name
         FROM Patient_Allergie pa
         JOIN Allergie a ON a.allergie_id = pa.allergie_id
@@ -236,39 +236,44 @@ def patientenuebersicht(patienten_id):
 def allergien(patienten_id):
     patient = db_read(
         "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
-        (patienten_id,),
+        (patienten_id,), 
         single=True
     )
 
+    #Falls kein Patient mit dieser ID existiert
     if not patient:
-        return "Patient nicht gefunden", 404
-
-    if request.method == "POST":
+        return "Patient nicht gefunden", 404 
+# Post:
+    # Angekreuzte Checkboxen speichern
+    if request.method == "POST": 
         selected_ids = request.form.getlist("allergie_id")
 
+        # Alte Allergien löschen
         db_write(
             "DELETE FROM Patient_Allergie WHERE patienten_id = %s",
             (patienten_id,)
         )
-
-        for aid in selected_ids:
+        # Neue Allergien speichern
+        for aid in selected_ids: 
             db_write(
                 "INSERT INTO Patient_Allergie (patienten_id, allergie_id) VALUES (%s, %s)",
                 (patienten_id, int(aid))
             )
 
         return redirect(url_for("patientenuebersicht", patienten_id=patienten_id))
-
+# Get:
+    # Alle Allergien aus db laden
     allergies = db_read(
         "SELECT allergie_id, Name FROM Allergie ORDER BY Name",
         ()
     )
-
+    # Bereits ausgewählte Allergien laden
     rows = db_read(
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
         (patienten_id,)
     )
 
+    # Set für schnelleren prüfung in HTML
     selected_set = {r["allergie_id"] for r in rows}
 
     return render_template(
@@ -284,7 +289,6 @@ def allergien(patienten_id):
 @app.route("/patient/<int:patienten_id>/ernaehrungspraeferenzen", methods=["GET", "POST"])
 @login_required
 def ernaehrungspraeferenzen(patienten_id):
-    # Patient holen
     patient = db_read(
         "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
         (patienten_id,),
@@ -293,7 +297,7 @@ def ernaehrungspraeferenzen(patienten_id):
     if not patient:
         return "Patient nicht gefunden", 404
 
-    # POST: Speichern
+# POST: 
     if request.method == "POST":
         selected_ids = request.form.getlist("praeferenz_id")
 
@@ -310,13 +314,12 @@ def ernaehrungspraeferenzen(patienten_id):
 
         return redirect(url_for("patientenuebersicht", patienten_id=patienten_id))
 
-    # GET: Alle Präferenzen laden
+# GET:
     preferences = db_read(
         "SELECT praeferenz_id, Name FROM Ernaehrungspraeferenzen ORDER BY Name",
         ()
     )
 
-    # GET: Bereits ausgewählte Präferenzen laden
     rows = db_read(
         "SELECT praeferenz_id FROM Patient_Ernaehrungspraeferenzen WHERE patienten_id = %s",
         (patienten_id,)
@@ -337,7 +340,6 @@ def ernaehrungspraeferenzen(patienten_id):
 @app.route("/patient/<int:patienten_id>/medikamente", methods=["GET", "POST"])
 @login_required
 def medikamente(patienten_id):
-    # Patient holen
     patient = db_read(
         "SELECT patienten_id, Name FROM Patient WHERE patienten_id = %s",
         (patienten_id,),
@@ -346,7 +348,7 @@ def medikamente(patienten_id):
     if not patient:
         return "Patient nicht gefunden", 404
 
-    # POST: Speichern
+# POST:
     if request.method == "POST":
         selected_ids = request.form.getlist("medikament_id")
 
@@ -363,13 +365,12 @@ def medikamente(patienten_id):
 
         return redirect(url_for("patientenuebersicht", patienten_id=patienten_id))
 
-    # GET: Alle Medikamente laden
+# GET:
     meds = db_read(
         "SELECT medikament_id, Name FROM Medikament ORDER BY Name",
         ()
     )
 
-    # GET: Bereits ausgewählte Medikamente laden
     rows = db_read(
         "SELECT medikament_id FROM Patient_Medikament WHERE patienten_id = %s",
         (patienten_id,)
@@ -400,20 +401,22 @@ def gerichte(patienten_id):
     if not patient:
         return "Patient nicht gefunden", 404
 
-    # Datum (für MVP: heute, oder aus Form)
+    # Datum bestimmen
     plan_datum = request.form.get("plan_datum") if request.method == "POST" else request.args.get("plan_datum")
     if not plan_datum:
         plan_datum = date.today().isoformat()
 
-    # POST: Auswahl speichern
+# POST: Auswahl speichern
     if request.method == "POST":
         fr = request.form.get("gericht_fruehstueck")
         mi = request.form.get("gericht_mittagessen")
         ab = request.form.get("gericht_abendessen")
 
+        # Bestehende Einträge löschen und neu einfügen
         def upsert(meal_type, gericht_id):
             if not gericht_id:
                 return
+
             db_write(
                 "DELETE FROM Patient_Ernaehrungsplan WHERE patienten_id=%s AND plan_datum=%s AND meal_type=%s",
                 (patienten_id, plan_datum, meal_type)
@@ -423,33 +426,32 @@ def gerichte(patienten_id):
                 (patienten_id, plan_datum, meal_type, int(gericht_id))
             )
 
-        # IMPORTANT: must match ENUM exactly
+       
         upsert("Fruehstueck", fr)
         upsert("Mittagessen", mi)
         upsert("Abendessen", ab)
 
         return redirect(url_for("ernaehrungsplan", patienten_id=patienten_id, plan_datum=plan_datum))
 
-    # --- GET: Filterdaten laden ---
-
-    # Patient-Allergien
+# GET: Gerichte filtern und anzeigen
+    # Allergien des Patienten laden
     pat_allergien = db_read(
         "SELECT allergie_id FROM Patient_Allergie WHERE patienten_id = %s",
         (patienten_id,)
     )
     allergie_ids = [r["allergie_id"] for r in pat_allergien]
 
-    # Patient-Präferenzen
+    # Ernährungspräferenzen des Patienten laden
     pat_prefs = db_read(
         "SELECT praeferenz_id FROM Patient_Ernaehrungspraeferenzen WHERE patienten_id = %s",
         (patienten_id,)
     )
     pref_ids = [r["praeferenz_id"] for r in pat_prefs]
 
-    # 1) Start: alle Gerichte (FIXED COLUMN NAME)
+    # Alle Gerichte laden
     gerichte_basis = db_read("SELECT gericht_id, Name, meal_type FROM Gericht", ())
 
-    # 2) Filtern
+    # Filtern
     filtered = []
     for g in gerichte_basis:
         gid = g["gericht_id"]
@@ -479,9 +481,9 @@ def gerichte(patienten_id):
         if not ok:
             continue
 
-        filtered.append(g)
+        filtered.append(g) # Wenn Gericht alle checks bestanden hat hinzufügen
 
-    # Gruppieren (match ENUM values)
+    # Gruppieren nach Mahlzeitentyp
     fruehstueck = [g for g in filtered if g["meal_type"] == "Fruehstueck"]
     mittagessen = [g for g in filtered if g["meal_type"] == "Mittagessen"]
     abendessen = [g for g in filtered if g["meal_type"] == "Abendessen"]
@@ -515,6 +517,7 @@ def ernaehrungsplan(patienten_id):
     if not patient:
         return "Patient nicht gefunden", 404
 
+    # Ernährungsplan-Daten für diesen Tag laden
     rows = db_read(
         f"""
         SELECT p.plan_datum, p.meal_type, g.Name AS gericht_name
@@ -533,7 +536,7 @@ def ernaehrungsplan(patienten_id):
         plan_datum=plan_datum,
         rows=rows
     )
-# Spitalaustritt (Patient-Account deaktivieren)
+# Spitalaustritt: Patient deaktivieren
 @app.post("/patient/<int:patienten_id>/deaktivieren")
 @login_required
 def patient_deaktivieren(patienten_id):
