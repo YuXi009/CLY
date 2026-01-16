@@ -1,3 +1,5 @@
+# Alle Tabellen auf Pythonanywhere MySQL erstellt
+
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(250) NOT NULL UNIQUE,
@@ -38,13 +40,6 @@ CREATE TABLE Ernaehrungspraeferenzen (
   Name VARCHAR(100)
 );
 
-CREATE TABLE Patient_Ernaehrungspraeferenzen (
-  patienten_id INT NOT NULL,
-  praeferenz_id INT NOT NULL,
-  PRIMARY KEY (patienten_id, praeferenz_id),
-  FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
-  FOREIGN KEY (praeferenz_id) REFERENCES Ernaehrungspraeferenzen(praeferenz_id)
-);
 INSERT INTO Ernaehrungspraeferenzen (Name) VALUES
 ('Vegetarisch'),
 ('Vegan'),
@@ -54,13 +49,46 @@ INSERT INTO Ernaehrungspraeferenzen (Name) VALUES
 ('Koscher'),
 ('Kein Schweinefleisch');
 
+CREATE TABLE Patient_Ernaehrungspraeferenzen (
+  patienten_id INT NOT NULL,
+  praeferenz_id INT NOT NULL,
+  PRIMARY KEY (patienten_id, praeferenz_id),
+  FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
+  FOREIGN KEY (praeferenz_id) REFERENCES Ernaehrungspraeferenzen(praeferenz_id)
+);
+
 CREATE TABLE Medikament (
   medikament_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Name VARCHAR(100),
-  Wirkstoff VARCHAR(100),
-  Dosierung DECIMAL(10,2),
-  Beschreibung MEDIUMTEXT
 );
+
+INSERT INTO Medikament 
+(medikament_id, Name)
+VALUES
+(1, 'Aspirin'), 
+(2, 'Paracetamol'), 
+(3, 'Ibuprofen'), 
+(4, 'Metformin'), 
+(5, 'Eisenpraeparat'),
+(6, 'Amoxicillin');
+
+INSERT INTO Medikament 
+(medikament_id, Name)
+VALUES
+(7, 'Ciprofloxacin'), 
+(8, 'Heparin'), 
+(9, 'Insulin'), 
+(10, 'Pantoprazol'), 
+(11, 'Salbutamol'), 
+(12, 'Prednisolon'), 
+(13, 'Metoclopramid'), 
+(14, 'Ramipril'), 
+(15, 'Furosemid'), 
+(16, 'Clexane'), 
+(17, 'Morphin'), 
+(18, 'Novalgin'), 
+(19, 'Diazepam'), 
+(20, 'Ringer-Lösung');
 
 CREATE TABLE Patient_Medikament (
   patienten_id INT NOT NULL,
@@ -69,17 +97,6 @@ CREATE TABLE Patient_Medikament (
   FOREIGN KEY (patienten_id) REFERENCES Patient(patienten_id),
   FOREIGN KEY (medikament_id) REFERENCES Medikament(medikament_id)
 );
-
-INSERT INTO Medikament 
-(medikament_id, Name, Wirkstoff, Dosierung, Beschreibung)
-VALUES
-(1, 'Aspirin', 'Acetylsalicylsäure', 500.00, 'Schmerzmittel, entzündungshemmend; kann Magen reizen'),
-(2, 'Paracetamol', 'Paracetamol', 500.00, 'Schmerz- und fiebersenkend; leberschonend dosieren'),
-(3, 'Ibuprofen', 'Ibuprofen', 400.00, 'Schmerzmittel; nicht nüchtern einnehmen'),
-(4, 'Metformin', 'Metforminhydrochlorid', 850.00, 'Blutzuckersenkend bei Diabetes Typ 2'),
-(5, 'Eisenpraeparat', 'Eisensulfat', 100.00, 'Zur Behandlung von Eisenmangel; nicht mit Milch einnehmen');
-
-
 
 CREATE TABLE Gericht (
   gericht_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -111,9 +128,8 @@ INSERT INTO Gericht (Name, meal_type, Beschreibung, Portionsgroesse, Naehrwerte)
 ('Omelett', 'Abendessen', 'Eieromelett mit Gemüse', '350g', 'Protein');
 
 INSERT INTO Gericht (Name, meal_type, Beschreibung, Portionsgroesse, Naehrwerte) VALUES
--- =========================
+
 -- FRUEHSTUECK (20+)
--- =========================
 ('Obstsalat Deluxe', 'Fruehstueck', 'Frische Früchte nach Saison', '300g', 'Vitamine, Ballaststoffe'),
 ('Reisbrei mit Zimt', 'Fruehstueck', 'Reisbrei mit Zimt und Apfel', '300g', 'Kohlenhydrate, Ballaststoffe'),
 ('Hirsebrei mit Beeren', 'Fruehstueck', 'Hirsebrei mit Beeren', '300g', 'Mineralstoffe, Ballaststoffe'),
@@ -135,9 +151,7 @@ INSERT INTO Gericht (Name, meal_type, Beschreibung, Portionsgroesse, Naehrwerte)
 ('Kartoffel-Gemüse-Pfanne', 'Fruehstueck', 'Kartoffeln + Gemüse', '350g', 'Vitamine'),
 ('Kürbisbrei', 'Fruehstueck', 'Kürbisbrei süß', '300g', 'Vitamine'),
 
--- =========================
 -- MITTAGESSEN (25+)
--- =========================
 ('Gemüse-Reis-Pfanne', 'Mittagessen', 'Reis mit Gemüse', '450g', 'Vitamine, Kohlenhydrate'),
 ('Kichererbsen-Curry', 'Mittagessen', 'Kichererbsen & Gemüse', '450g', 'Protein, Ballaststoffe'),
 ('Linsen-Dal mit Reis', 'Mittagessen', 'Linsen dal + Reis', '450g', 'Protein, Ballaststoffe'),
@@ -164,9 +178,7 @@ INSERT INTO Gericht (Name, meal_type, Beschreibung, Portionsgroesse, Naehrwerte)
 ('Kein Schwein: Rind + Kartoffeln', 'Mittagessen', 'Rindfleisch + Kartoffeln', '450g', 'Protein'),
 ('Gemüse-Lasagne (glutenfrei, laktosefrei)', 'Mittagessen', 'GF/LF Lasagne', '450g', 'Kohlenhydrate'),
 
--- =========================
 -- ABENDESSEN (20+)
--- =========================
 ('Kartoffel-Lauch-Suppe', 'Abendessen', 'Suppe', '500ml', 'Vitamine'),
 ('Tomaten-Bohnensuppe', 'Abendessen', 'Tomate + Bohnen', '500ml', 'Protein'),
 ('Gemüse-Chili', 'Abendessen', 'Chili sin carne', '450g', 'Protein'),
@@ -195,7 +207,6 @@ CREATE TABLE Gericht_Allergie (
   FOREIGN KEY (gericht_id) REFERENCES Gericht(gericht_id),
   FOREIGN KEY (allergie_id) REFERENCES Allergie(allergie_id) 
 );
-
 
 -- Eier
 INSERT INTO Gericht_Allergie (gericht_id, allergie_id)
@@ -291,7 +302,7 @@ CREATE TABLE Patient_Ernaehrungsplan (
   FOREIGN KEY (gericht_id) REFERENCES Gericht(gericht_id)
 );
 
-# Vegan
+-- Vegan
 INSERT INTO Gericht_Ernaehrungspraeferenzen (gericht_id, praeferenz_id)
 SELECT g.gericht_id, p.praeferenz_id
 FROM Gericht g, Ernaehrungspraeferenzen p
@@ -306,7 +317,7 @@ AND g.Name IN (
   'Gemüse-Curry','Reis mit Linsen','Früchte-Kompot'
 );
 
-# Vegetarisch
+-- Vegetarisch
 INSERT INTO Gericht_Ernaehrungspraeferenzen (gericht_id, praeferenz_id)
 SELECT g.gericht_id, p.praeferenz_id
 FROM Gericht g, Ernaehrungspraeferenzen p
@@ -320,7 +331,7 @@ AND g.Name IN (
   'Falafel-Teller','Gemüse-Chili','Gemüse-Risotto (laktosefrei)','Reis mit Gemüse','Quinoa-Salat'
 );
 
-# Glutenfrei
+-- Glutenfrei
 INSERT INTO Gericht_Ernaehrungspraeferenzen (gericht_id, praeferenz_id)
 SELECT g.gericht_id, p.praeferenz_id
 FROM Gericht g, Ernaehrungspraeferenzen p
@@ -334,7 +345,7 @@ AND g.Name IN (
   'Gemüse-Chili','Reis mit Linsen','Ofenkartoffeln mit Kräutern'
 );
 
-# Laktosefrei
+-- Laktosefrei
 INSERT INTO Gericht_Ernaehrungspraeferenzen (gericht_id, praeferenz_id)
 SELECT g.gericht_id, p.praeferenz_id
 FROM Gericht g, Ernaehrungspraeferenzen p
@@ -346,7 +357,7 @@ AND g.Name IN (
   'Kartoffel-Lauch-Suppe','Tomaten-Bohnensuppe','Gemüse-Chili','Ofenkartoffeln mit Kräutern'
 );
 
-# Kein Schweinefleisch
+-- Kein Schweinefleisch
 INSERT INTO Gericht_Ernaehrungspraeferenzen (gericht_id, praeferenz_id)
 SELECT g.gericht_id, p.praeferenz_id
 FROM Gericht g, Ernaehrungspraeferenzen p
