@@ -44,6 +44,17 @@
        margin-bottom: 18px;
        box-shadow: 0 2px 6px rgba(15, 61, 87, 0.06);
      }
+     .title-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .header-image {
+      max-height: 80px;      /* Größe anpassen */
+      width: auto;
+      margin-left: 20px;
+    }
      .app-title {
        margin: 0;
        font-size: 20px;
@@ -133,10 +144,12 @@
 </div>
 </div>
 </nav>
+
 <div class="container">
 <div class="app-header">
 <h1 class="app-title">Medizinische Ernährungsberatung</h1>
 <p class="app-subtitle">Ernährungsplanung im Spital – individuell, sicher und patientenzentriert.</p>
+<p><img src="{{ url_for('static', filename='static/images/logo.jpeg') }}" class="header-image" align="navbar-right"></p>
 </div>
 <div class="page-card">
        {% block content %}{% endblock %}
