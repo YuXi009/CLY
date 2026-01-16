@@ -12,20 +12,20 @@
 <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
 <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
 <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
 <style>
-     /* ===== Base / Background ===== */
      body {
-       background: #d4e3f1; /* clean hospital-blue background */
+       background: #e1ebf5;
        color: #223;
      }
-     /* ===== Navbar (medical look) ===== */
+  
      .navbar {
        border-radius: 0;
        border: 0;
        margin-bottom: 25px;
      }
      .navbar-med {
-       background: #0f3d57; /* deep medical blue */
+       background: #0f3d57; 
      }
      .navbar-med .navbar-brand,
      .navbar-med .navbar-nav > li > a {
@@ -35,7 +35,7 @@
      .navbar-med .navbar-nav > li > a:hover {
        color: #d7eefc !important;
      }
-     /* ===== Header strip (optional) ===== */
+    
 
     .app-header {
      background: white;
@@ -70,7 +70,7 @@
       margin-bottom: 20px;
     }
     .header-image {
-      max-height: 80px;      /* Größe anpassen */
+      max-height: 80px;      
       width: auto;
       margin-left: 20px;
     }
@@ -85,7 +85,7 @@
        color: #5a6b7b;
        font-size: 13px;
      }
-     /* ===== Content card wrapper ===== */
+    
      .page-card {
        background: #fff;
        border: 1px solid #e6eef6;
@@ -94,13 +94,13 @@
        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
        margin-bottom: 25px;
      }
-     /* ===== Common typography helpers ===== */
+   
      .page-title {
        margin-top: 0;
        font-weight: 700;
        color: #0f3d57;
      }
-     /* ===== Buttons (slightly more clinical) ===== */
+    
      .btn-primary {
        background: #1f7bb6;
        border-color: #1f7bb6;
@@ -117,11 +117,11 @@
        background: #1f7bb6;
        border-color: #1f7bb6;
      }
-     /* ===== List group tweaks ===== */
+   
      .list-group-item {
        border-color: #e6eef6;
      }
-     /* ===== Small badge style ===== */
+    
      .soft-badge {
        display: inline-block;
        padding: 3px 8px;
